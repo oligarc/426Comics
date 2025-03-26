@@ -3,6 +3,9 @@
 -- Date : 26/03/2025 --
 -- Apreciación 1: Incluir posteriormente pedido y detallesPedido --
 
+-- As im working on MySQL I need to create first the DB --
+CREATE DATABASE IF NOT EXISTS comics_db;
+USE comics_db;
 ------------------------------------------
 -- Drop tables for new launches/catching errors --
 DROP TABLE IF EXISTS user;
@@ -22,8 +25,8 @@ CREATE TABLE user(
     last_name VARCHAR(100) NOT NULL,
     email VARCHAR(50) NOT NULL UNIQUE,
     nick VARCHAR(20) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL, --Hashed pw by the way --
-    role VARCHAR2(20) DEFAULT 'USER' CHECK (role IN ('ADMIN','USER','EDITOR')),
+    password VARCHAR(255) NOT NULL, -- Hashed pw by the way --
+    role VARCHAR(20) DEFAULT 'USER' CHECK (role IN ('ADMIN','USER','EDITOR')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -35,8 +38,8 @@ CREATE TABLE comic(
     launch_date DATE,
     price DECIMAL(5,2) NOT NULL,
     stock INT,
-    ISBN VARCHAR2(25) NOT NULL UNIQUE,
-    cover_url VARCHAR2(255) NOT NULL,
+    ISBN VARCHAR(25) NOT NULL UNIQUE,
+    cover_url VARCHAR(255) NOT NULL,
     description TEXT,
     page_count INT,
     is_collection BOOLEAN DEFAULT FALSE,
@@ -57,7 +60,7 @@ CREATE TABLE author (
     biography TEXT,
     photo_url VARCHAR(255),
     is_scriptwriter BOOLEAN DEFAULT TRUE,
-    is_drawer BOOLEAN DEFAULT FALSE
+    is_drawer BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -101,37 +104,37 @@ CREATE TABLE user_collection(
 ------------------------------------------
 -- Adding constraints --
 
---Foreign key for author in COMIC --
+-- Foreign key for author in COMIC --
 ALTER TABLE comic 
 ADD CONSTRAINT fk_comic_author
     FOREIGN KEY (author_id) REFERENCES author(id)
     ON DELETE RESTRICT; -- Can't delete author with comics, if you use CASCADE it deletes automatically --
 
---Foreign key for publisher in COMIC --
+-- Foreign key for publisher in COMIC --
 ALTER TABLE comic
 ADD CONSTRAINT fk_comic_publisher
     FOREIGN KEY (publisher_id) REFERENCES publisher(id)
     ON DELETE RESTRICT;
 
---Foreign key for user in REVIEW --
+-- Foreign key for user in REVIEW --
 ALTER TABLE review
 ADD CONSTRAINT fk_review_user
     FOREIGN KEY (user_id) REFERENCES user(id)
     ON DELETE CASCADE;
 
---Foreign key for comic in REVIEW --
+-- Foreign key for comic in REVIEW --
 ALTER TABLE review
 ADD CONSTRAINT fk_review_comic
     FOREIGN KEY (comic_id) REFERENCES comic(id)
     ON DELETE CASCADE;
 
---Foreign key for user in USER_COLLECTION --
+-- Foreign key for user in USER_COLLECTION --
 ALTER TABLE user_collection
 ADD CONSTRAINT fk_user_collection_user
     FOREIGN KEY (user_id) REFERENCES user(id)
     ON DELETE CASCADE;
 
---Foreign key for comic in USER_COLLECTION --
+-- Foreign key for comic in USER_COLLECTION --
 ALTER TABLE user_collection
 ADD CONSTRAINT fk_user_collection_comic
     FOREIGN KEY (comic_id) REFERENCES comic(id)
@@ -163,4 +166,4 @@ VALUES
 ('Sandman Vol. 1: Preludes & Nocturnes', '1989-01-01', 19.99, 35, '978-1401237655', 'https://m.media-amazon.com/images/I/810n6p+2ceL._AC_UF1000,1000_QL80_.jpg', 'Primer volumen de la saga de Morfeo', 240, TRUE, 1, 5, 2),
 ('X-Men #1', '1963-09-10', 12.99, 25, '978-0785104450', 'https://static.wikia.nocookie.net/marveldatabase/images/2/2f/X-Men_Vol_1_1.jpg/revision/latest?cb=20180128172113', 'Primera aparición de los X-Men', 32, FALSE, 1, 1, 1);
 
-------------------------------------------
+-- ----------------------------------------
