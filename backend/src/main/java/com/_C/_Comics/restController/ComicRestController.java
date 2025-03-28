@@ -12,76 +12,68 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController
-@RequestMapping("/api")
-public class RestController {
+@RequestMapping("/api/comics")
+public class ComicRestController {
 
     private ServiceComic serviceComic;
-    private ServiceAuthor serviceAuthor;
 
     @Autowired
-    public RestController(ServiceComic v_serviceComic, ServiceAuthor v_serviceAuthor){
+    public ComicRestController(ServiceComic v_serviceComic){
         this.serviceComic=v_serviceComic;
-        this.serviceAuthor=v_serviceAuthor;
     }
 
-    @GetMapping("/comics")
+    @GetMapping("/")
     public List<ComicDTO> allComics(){
         return serviceComic.getAllComics();
     }
 
-    @GetMapping("/comics/{id}")
+    @GetMapping("/{id}")
     public ComicDTO getComicsById(@PathVariable int id){
         return serviceComic.getComicByID(id);
     }
 
-    @GetMapping("/comics/title/{title}")
+    @GetMapping("/title/{title}")
     public List<ComicDTO> getComicsByTitle(@PathVariable String title){
         return serviceComic.getComicsByName(title);
     }
 
-    @GetMapping("/comics/author/{authorName}")
-    public List<ComicDTO> getComicsByAuthorName(@PathVariable String authorName){
-        // Had to divide the name, name and LastName
-        String[] authorParts = authorName.split(" ");
-        String firstName = authorParts[0]; // First value as name
-        String lastName = authorParts.length > 1 ? authorParts[1] : ""; //Second value as lastName, if exists of course
-
-        return serviceComic.getComicsByAuthorName(firstName,lastName);
+    @GetMapping("/author/{authorName}") //Need to check it because it's not working properly
+    public List<ComicDTO> getComicsByAuthorName(@PathVariable String authorName) {
+        String[] parts = authorName.split(" ", 2);
+        String name = parts[0];
+        String lastname = (parts.length > 1) ? parts[1] : "";
+        return serviceComic.getComicsByAuthorName(name, lastname);
     }
 
-    @GetMapping("/comics/publisher/{publisherName}")
+
+    @GetMapping("/publisher/{publisherName}")
     public List<ComicDTO> getComicsByPublisherName(@PathVariable String publisherName){
         return serviceComic.getComicsByPublisherName(publisherName);
     }
 
-    @GetMapping("/comics/isbn/{isbn}")
+    @GetMapping("/isbn/{isbn}")
     public ComicDTO getComicByISBN(@PathVariable String isbn){
         return serviceComic.getComicByISBN(isbn);
     }
 
-    @GetMapping("/comics/price-range")
+    @GetMapping("/price-range")
     public List<ComicDTO> getComicsByPriceRange(@RequestParam BigDecimal min, @RequestParam BigDecimal max){
         return serviceComic.getComicsByPriceRange(min,max);
     }
 
-    @GetMapping("/comics/page-range")
+    @GetMapping("/page-range")
     public List<ComicDTO> getComicsByPageRange(@RequestParam int min,@RequestParam int max){
         return serviceComic.getComicsByPageCountRange(min,max);
     }
 
-    @GetMapping("/comics/stock-range")
+    @GetMapping("/stock-range")
     public List<ComicDTO> getComicsByStockRange(@RequestParam int min,@RequestParam int max){
         return serviceComic.getComicsByStockRange(min, max);
     }
 
-    @PostMapping("/comics/")
+    @PostMapping("/")
     public Comic saveComic(@RequestBody Comic comic){
         serviceComic.saveComic(comic);
         return comic;
-    }
-
-    @GetMapping("/author/{id}")
-    public AuthorDTO getAuthorById(@PathVariable int id){
-        return serviceAuthor.getAuthorById(id);
     }
 }

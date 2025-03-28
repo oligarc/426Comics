@@ -41,8 +41,13 @@ public class ServiceComicImpl implements ServiceComic {
 
     @Override
     public List<ComicDTO> getComicsByAuthorName(String authorName,String authorLastName) {
-        List<Comic> comics = comicRepository.findByAuthorNameOrLastName(authorName,authorLastName);
-        return comics.stream().map(this::convertToComicDTO).collect(Collectors.toList());
+        if(authorLastName.isEmpty()){
+            List<Comic> comics = comicRepository.findByAuthorNameOrLastName(authorName,null);
+            return comics.stream().map(this::convertToComicDTO).collect(Collectors.toList());
+        }else{
+            List<Comic> comics = comicRepository.findByAuthorNameOrLastName(authorName,authorLastName);
+            return comics.stream().map(this::convertToComicDTO).collect(Collectors.toList());
+        }
     }
 
     @Override

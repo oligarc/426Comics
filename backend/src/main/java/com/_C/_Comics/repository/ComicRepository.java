@@ -15,10 +15,10 @@ public interface ComicRepository extends JpaRepository<Comic,Integer> {
     //List<Comic> searchByTitle(@Param("title") String title);
     List<Comic> findByTitleContainingIgnoreCase(String title);
 
-    @Query("SELECT c FROM Comic c JOIN c.author a " +
-            "WHERE LOWER(a.name) LIKE LOWER(CONCAT('%', :authorName, '%')) " +
-            "OR LOWER(a.lastName) LIKE LOWER(CONCAT('%', :lastName, '%'))")
-    List<Comic> findByAuthorNameOrLastName(@Param("authorName") String authorName, @Param("lastName") String lastName);
+    @Query("SELECT c FROM Comic c WHERE " +
+            "(LOWER(c.author.name) LIKE LOWER(CONCAT('%', :name, '%')) OR :name IS NULL) " +
+            "AND (LOWER(c.author.lastName) LIKE LOWER(CONCAT('%', :lastname, '%')) OR :lastname IS NULL)")
+    List<Comic> findByAuthorNameOrLastName(@Param("name") String name, @Param("lastname") String lastname);
 
     @Query("SELECT c FROM Comic c where LOWER(c.publisher.name) LIKE LOWER(CONCAT('%', :publisherName , '%')) ")
     List<Comic> findByPublisherName(@Param("publisherName") String publisherName);
