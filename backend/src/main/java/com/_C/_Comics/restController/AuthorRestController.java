@@ -1,12 +1,10 @@
 package com._C._Comics.restController;
 
 import com._C._Comics.dto.AuthorDTO;
+import com._C._Comics.entity.Author;
 import com._C._Comics.service.ServiceAuthor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,6 +41,11 @@ public class AuthorRestController {
         return serviceAuthor.getAuthorsByNationality(nationality);
     }
 
+    @GetMapping("/birthdate/{startDate}/{endDate}")
+    public List<AuthorDTO> getAuthorsBetweenBirthDates(@PathVariable String startDate, @PathVariable String endDate){
+        return serviceAuthor.getAuthorsBetweenBirthDates(startDate,endDate);
+    }
+
     @GetMapping("/scripters")
     public List<AuthorDTO> getAuthorsWhoAreScripters(){
         return serviceAuthor.getAuthorsWhoAreScripters();
@@ -51,5 +54,20 @@ public class AuthorRestController {
     @GetMapping("/drawers")
     public List<AuthorDTO> getAuthorsWhoAreDrawers(){
         return serviceAuthor.getAuthorsWhoAreDrawers();
+    }
+
+    @PostMapping("/")
+    public void saveAuthor(@RequestBody Author author){
+        serviceAuthor.saveAuthor(author);
+    }
+
+    @PutMapping("/{id}")
+    public Author updateAuthor(@RequestBody Author author,@PathVariable int id){
+        return serviceAuthor.updateAuthor(author,id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteAuthor(@PathVariable int id){
+        serviceAuthor.deleteAuthor(id);
     }
 }

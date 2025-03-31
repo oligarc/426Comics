@@ -173,4 +173,6 @@ VALUES
 ('Sandman Vol. 1: Preludes & Nocturnes', '1989-01-01', 19.99, 35, '978-1401237655', 'https://m.media-amazon.com/images/I/810n6p+2ceL._AC_UF1000,1000_QL80_.jpg', 'Primer volumen de la saga de Morfeo', 240, TRUE, 1, 5, 2),
 ('X-Men #1', '1963-09-10', 12.99, 25, '978-0785104450', 'https://static.wikia.nocookie.net/marveldatabase/images/2/2f/X-Men_Vol_1_1.jpg/revision/latest?cb=20180128172113', 'Primera aparición de los X-Men', 32, FALSE, 1, 1, 1);
 
+INSERT INTO user(name,last_name,email,nick,password,active) VALUES ('Juan', 'Pérez', 'juan.perez@example.com', 'juanp', '1234', 1);
+INSERT INTO review(rating,review_text,user_id,comic_id) VALUES (5,'Batman es dios',1,3);
 -- ----------------------------------------

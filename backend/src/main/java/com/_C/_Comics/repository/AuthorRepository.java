@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface AuthorRepository extends JpaRepository<Author,Integer> {
@@ -12,6 +13,6 @@ public interface AuthorRepository extends JpaRepository<Author,Integer> {
     List<Author> findByNameContainingIgnoreCase(@Param("name") String name, @Param("lastname") String lastname);
     List<Author> findByNationalityContainingIgnoreCase(String nationality);
     List<Author> findByIsScriptwriter(boolean isScriptwriter);
-
     List<Author> findByIsDrawer(Boolean isDrawer);
+    List<Author> findByBirthDateBetween(LocalDate birthDateAfter, LocalDate birthDateBefore);
 }

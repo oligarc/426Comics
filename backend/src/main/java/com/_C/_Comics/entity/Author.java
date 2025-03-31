@@ -5,7 +5,9 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -55,7 +57,15 @@ public class Author {
     private Instant updatedAt;
 
     @OneToMany(mappedBy = "author")
-    private Set<Comic> comics = new LinkedHashSet<>();
+    private List<Comic> comics = new ArrayList<Comic>();
+
+    public List<Comic> getComics() {
+        return comics;
+    }
+
+    public void setComics(List<Comic> comics) {
+        this.comics = comics;
+    }
 
     public Integer getId() {
         return id;
@@ -151,14 +161,6 @@ public class Author {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Set<Comic> getComics() {
-        return comics;
-    }
-
-    public void setComics(Set<Comic> comics) {
-        this.comics = comics;
     }
 
 }

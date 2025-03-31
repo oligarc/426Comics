@@ -5,6 +5,7 @@ import com._C._Comics.entity.Author;
 import com._C._Comics.repository.AuthorRepository;
 import com._C._Comics.repository.ComicRepository;
 import com._C._Comics.entity.Comic;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ public class ServiceComicImpl implements ServiceComic {
     private ComicRepository comicRepository;
     private AuthorRepository authorRepository;
 
+    @Autowired
     public ServiceComicImpl(ComicRepository v_comicRepository) {
         this.comicRepository = v_comicRepository;
     }
@@ -29,8 +31,8 @@ public class ServiceComicImpl implements ServiceComic {
 
     @Override
     public ComicDTO getComicByID(int id) {
-        Comic comic = comicRepository.findById(id).orElse(null);
-        return comic != null ? convertToComicDTO(comic) : null;
+        Comic comic = comicRepository.findById(id).orElseThrow(() -> new RuntimeException("There's no comic with that id"));
+        return convertToComicDTO(comic);
     }
 
     @Override

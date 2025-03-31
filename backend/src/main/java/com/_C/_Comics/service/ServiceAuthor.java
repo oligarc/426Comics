@@ -10,6 +10,10 @@ public interface ServiceAuthor {
     public AuthorDTO getAuthorById(int id);
     public List<AuthorDTO> getAuthorsByName(String name,String lastName);
     public List<AuthorDTO> getAuthorsByNationality(String nationality);
+    public List<AuthorDTO> getAuthorsBetweenBirthDates(String startDate, String endDate);
     public List<AuthorDTO> getAuthorsWhoAreScripters();
     public List<AuthorDTO> getAuthorsWhoAreDrawers();
+    public void saveAuthor(Author author);
+    public Author updateAuthor(Author author, int id);
+    public void deleteAuthor(int id);
 }
