@@ -72,8 +72,17 @@ public class ComicRestController {
     }
 
     @PostMapping("/")
-    public Comic saveComic(@RequestBody Comic comic){
+    public void saveComic(@RequestBody Comic comic){
         serviceComic.saveComic(comic);
-        return comic;
+    }
+
+    @PutMapping("/{id}")
+    public void updateComicByComicId(@RequestBody Comic comic,@PathVariable int id){
+        serviceComic.updateComic(comic, id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteComicById(@PathVariable int id){
+        serviceComic.deleteComic(id);
     }
 }

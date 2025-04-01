@@ -2,9 +2,13 @@ package com._C._Comics.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -34,19 +38,35 @@ public class User {
     @Column(name = "role", length = 20)
     private String role;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @CreationTimestamp
     @Column(name = "created_at")
     private Instant createdAt;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private Instant updatedAt;
 
     @OneToMany(mappedBy = "user")
-    private Set<Review> reviews = new LinkedHashSet<>();
+    private List<Review> reviews = new ArrayList<Review>();
 
     @OneToMany(mappedBy = "user")
-    private Set<UserCollection> userCollections = new LinkedHashSet<>();
+    private List<UserCollection> userCollections = new ArrayList<UserCollection>();
+
+    public List<UserCollection> getUserCollections() {
+        return userCollections;
+    }
+
+    public void setUserCollections(List<UserCollection> userCollections) {
+        this.userCollections = userCollections;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
 
     public Integer getId() {
         return id;
@@ -118,22 +138,6 @@ public class User {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Set<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(Set<Review> reviews) {
-        this.reviews = reviews;
-    }
-
-    public Set<UserCollection> getUserCollections() {
-        return userCollections;
-    }
-
-    public void setUserCollections(Set<UserCollection> userCollections) {
-        this.userCollections = userCollections;
     }
 
 }

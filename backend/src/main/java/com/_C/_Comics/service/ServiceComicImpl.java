@@ -2,9 +2,11 @@ package com._C._Comics.service;
 
 import com._C._Comics.dto.*;
 import com._C._Comics.entity.Author;
+import com._C._Comics.entity.Publisher;
 import com._C._Comics.repository.AuthorRepository;
 import com._C._Comics.repository.ComicRepository;
 import com._C._Comics.entity.Comic;
+import com._C._Comics.repository.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +19,13 @@ public class ServiceComicImpl implements ServiceComic {
 
     private ComicRepository comicRepository;
     private AuthorRepository authorRepository;
+    private PublisherRepository publisherRepository;
 
     @Autowired
-    public ServiceComicImpl(ComicRepository v_comicRepository) {
+    public ServiceComicImpl(ComicRepository v_comicRepository,AuthorRepository v_authorRepository,PublisherRepository v_publisherRepository) {
         this.comicRepository = v_comicRepository;
+        this.authorRepository=v_authorRepository;
+        this.publisherRepository=v_publisherRepository;
     }
 
     @Override
@@ -84,14 +89,33 @@ public class ServiceComicImpl implements ServiceComic {
 
     @Override
     public void saveComic(Comic comic) {
-        if (comic.getAuthor() == null) {
-            throw new RuntimeException("Comic must have an author");
-        }
-        Author author = comic.getAuthor();
-        Author existingAuthor = authorRepository.findById(author.getId())
-                .orElseThrow(() -> new RuntimeException("Author not found"));
-        comic.setAuthor(existingAuthor);
-        comicRepository.save(comic);
+        Author existingAuthor = authorRepository.findById(comic.getAuthor().getId()).orElseThrow(()-> new RuntimeException("No author with that id"));
+        Publisher existingPublisher = publisherRepository.findById(comic.getPublisher().getId()).orElseThrow(()-> new RuntimeException("No publisher with that id"));
+         comicRepository.save(comic);
+    }
+
+    @Override
+    public void updateComic(Comic comic, int comicId) {
+        Comic existingComic = comicRepository.findById(comicId).orElseThrow(()-> new RuntimeException("No comic with that id"));
+        existingComic.setTitle(comic.getTitle());
+        existingComic.setLaunchDate(comic.getLaunchDate());
+        existingComic.setPrice(comic.getPrice());
+        existingComic.setStock(comic.getStock());
+        existingComic.setIsbn(comic.getIsbn());
+        existingComic.setCoverUrl(comic.getCoverUrl());
+        existingComic.setDescription(comic.getDescription());
+        existingComic.setPageCount(comic.getPageCount());
+        existingComic.setIsCollection(comic.getIsCollection());
+        existingComic.setCollectionVolume(comic.getCollectionVolume());
+        existingComic.setAuthor(comic.getAuthor());
+        existingComic.setPublisher(comic.getPublisher());
+        comicRepository.save(existingComic);
+    }
+
+    @Override
+    public void deleteComic(int comicId) {
+        Comic existingComic = comicRepository.findById(comicId).orElseThrow(()-> new RuntimeException("No comic with that id"));
+        comicRepository.deleteById(comicId);
     }
 
     private ComicDTO convertToComicDTO(Comic comic){

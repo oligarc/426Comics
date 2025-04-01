@@ -1,9 +1,8 @@
 package com._C._Comics.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import jakarta.persistence.Table;
+import org.hibernate.annotations.*;
 
 import java.time.Instant;
 
@@ -32,11 +31,11 @@ public class Review {
     @JoinColumn(name = "comic_id", nullable = false)
     private Comic comic;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @CreationTimestamp
     @Column(name = "reviewed_at")
     private Instant reviewedAt;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @UpdateTimestamp
     @Column(name = "last_updated_at")
     private Instant lastUpdatedAt;
 

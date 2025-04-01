@@ -19,6 +19,38 @@ public class ServiceUserImpl implements ServiceUser {
         return convertToUserDTO(user);
     }
 
+    @Override
+    public UserDTO createUser(User user) {
+
+        User savedUser = userRepository.save(user);
+        return convertToUserDTO(savedUser);
+    }
+
+    @Override
+    public UserDTO updateUser(int id, User user) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id " + id));
+
+        existingUser.setName(user.getName());
+        existingUser.setLastName(user.getLastName());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setNick(user.getNick());
+        existingUser.setPassword(user.getPassword());
+        existingUser.setRole(user.getRole());
+
+        User updatedUser = userRepository.save(existingUser);
+        return convertToUserDTO(updatedUser);
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id " + id));
+        userRepository.delete(existingUser);
+    }
+
+
+
     private UserDTO convertToUserDTO(User user){
         return new UserDTO(user.getId(),user.getNick());
     }

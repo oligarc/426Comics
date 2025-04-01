@@ -2,6 +2,8 @@ package com._C._Comics.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -59,11 +61,11 @@ public class Comic {
     @JoinColumn(name = "publisher_id", nullable = false)
     private Publisher publisher;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @CreationTimestamp
     @Column(name = "created_at")
     private Instant createdAt;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private Instant updatedAt;
 
@@ -72,6 +74,26 @@ public class Comic {
 
     @OneToMany(mappedBy = "comic")
     private List<UserCollection> userCollections = new ArrayList<UserCollection>();
+
+    public Comic(){
+
+    }
+
+    public Comic(Integer id, String title, LocalDate launchDate, BigDecimal price, Integer stock, String isbn, String coverUrl, String description, Integer pageCount, Boolean isCollection, Integer collectionVolume, Author author, Publisher publisher) {
+        this.id = id;
+        this.title = title;
+        this.launchDate = launchDate;
+        this.price = price;
+        this.stock = stock;
+        this.isbn = isbn;
+        this.coverUrl = coverUrl;
+        this.description = description;
+        this.pageCount = pageCount;
+        this.isCollection = isCollection;
+        this.collectionVolume = collectionVolume;
+        this.author = author;
+        this.publisher = publisher;
+    }
 
     public List<UserCollection> getUserCollections() {
         return userCollections;

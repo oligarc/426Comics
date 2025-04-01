@@ -17,5 +17,7 @@ public interface ServiceComic {
     public List<ComicDTO> getComicsByPageCountRange(int minimum, int max);
     public List<ComicDTO> getComicsByStockRange(int minimum,int max);
     public void saveComic(Comic comic);
+    public void updateComic(Comic comic,int comicId);
+    public void deleteComic(int comicId);
 
 }
