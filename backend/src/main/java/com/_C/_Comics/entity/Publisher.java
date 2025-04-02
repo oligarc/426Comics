@@ -38,6 +38,9 @@ public class Publisher {
     @Column(name = "telephone", length = 20)
     private String telephone;
 
+    @Column(name = "logo_url")
+    private String logoUrl;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private Instant createdAt;
@@ -55,6 +58,14 @@ public class Publisher {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
     }
 
     public String getName() {

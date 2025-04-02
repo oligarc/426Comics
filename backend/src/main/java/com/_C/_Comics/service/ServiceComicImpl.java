@@ -140,7 +140,8 @@ public class ServiceComicImpl implements ServiceComic {
                 comic.getPublisher().getPostalCode(),
                 comic.getPublisher().getTown(),
                 comic.getPublisher().getProvince(),
-                comic.getPublisher().getTelephone()
+                comic.getPublisher().getTelephone(),
+                comic.getPublisher().getLogoUrl()
         );
 
         List<ReviewDTO> reviews = comic.getReviews().stream().map(review -> {
