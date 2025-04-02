@@ -8,6 +8,9 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.sql.DataSource;
 
@@ -32,9 +35,25 @@ public class SeguridadConfig {
         return manager;
     }
 
+    //Needed to configure CORS to permit communication between front and back
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("http://localhost:5173"); // Front
+        configuration.addAllowedMethod("*"); // Gonna authorize every method
+        configuration.addAllowedHeader("*"); // Gonna authorize every header, just to include the auth
+        configuration.setAllowCredentials(true); // Sets true for cookies and headers to be sent
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration); // Apply CORS to every API route
+        return source;
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
+        http.cors().configurationSource(corsConfigurationSource()); //We apply the cors configuration in the filterChain
         http.authorizeHttpRequests(configurer ->
                 configurer
 
