@@ -10,12 +10,14 @@ public class PublisherDTO {
     private String town;
     private String province;
     private String telephone;
+    private String logoUrl;
+
 
     public PublisherDTO(){
 
     }
 
-    public PublisherDTO(Integer id, String name, String websiteUrl, String businessPlace, Integer postalCode, String town, String province, String telephone) {
+    public PublisherDTO(Integer id, String name, String websiteUrl, String businessPlace, Integer postalCode, String town, String province, String telephone,String logoUrl) {
         this.id = id;
         this.name = name;
         this.websiteUrl = websiteUrl;
@@ -24,7 +26,9 @@ public class PublisherDTO {
         this.town = town;
         this.province = province;
         this.telephone = telephone;
+        this.logoUrl=logoUrl;
     }
+
 
     public Integer getId() {
         return id;
@@ -88,5 +92,13 @@ public class PublisherDTO {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
     }
 }

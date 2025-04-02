@@ -71,6 +71,6 @@ public class ServicePublisherImpl implements ServicePublisher {
     }
 
     private PublisherDTO converToPublisherDTO(Publisher publisher){
-        return new PublisherDTO(publisher.getId(),publisher.getName(),publisher.getWebsiteUrl(),publisher.getBusinessPlace(),publisher.getPostalCode(),publisher.getTown(),publisher.getProvince(),publisher.getTelephone());
+        return new PublisherDTO(publisher.getId(),publisher.getName(),publisher.getWebsiteUrl(),publisher.getBusinessPlace(),publisher.getPostalCode(),publisher.getTown(),publisher.getProvince(),publisher.getTelephone(),publisher.getLogoUrl());
     }
 }

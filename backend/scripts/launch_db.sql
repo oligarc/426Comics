@@ -81,6 +81,7 @@ CREATE TABLE publisher(
     town VARCHAR(50),
     province VARCHAR(50),
     telephone VARCHAR(20),
+    logo_url VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -153,9 +154,9 @@ ADD CONSTRAINT fk_user_collection_comic
 
 -- Inserting data --
 
-INSERT INTO publisher (name, website_url, business_place, postal_code, town, province, telephone)
-VALUES ('Planeta Cómic', 'https://www.planetadelibros.com', 'Calle Córcega 273-277', 08008, 'Barcelona', 'Barcelona', '+34 934-925-000'),
-('Norma Editorial', 'https://www.normaeditorial.com', 'Calle Ávila 57', 08005, 'Barcelona', 'Barcelona', '+34 933-096-900');
+INSERT INTO publisher (name, website_url, business_place, postal_code, town, province, telephone,logo_url)
+VALUES ('Planeta Cómic', 'https://www.planetadelibros.com', 'Calle Córcega 273-277', 08008, 'Barcelona', 'Barcelona', '+34 934-925-000','https://publishnews.es/wp-content/uploads/2024/02/grupo_planeta-1280x640.jpg'),
+('Norma Editorial', 'https://www.normaeditorial.com', 'Calle Ávila 57', 08005, 'Barcelona', 'Barcelona', '+34 933-096-900','https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Norma_Editorial.svg/1200px-Norma_Editorial.svg.png');
 
 INSERT INTO author (name, last_name, nationality, birth_date, death_date, is_scriptwriter, is_drawer)
 VALUES
@@ -171,7 +172,7 @@ VALUES
 ('Watchmen', '1986-09-01', 29.99, 30, '978-0930289232', 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Watchmen-cover.svg/1200px-Watchmen-cover.svg.png', 'Clásico de Alan Moore sobre superhéroes retirados', 416, TRUE, 1, 3, 2),
 ('Batman: The Dark Knight Returns', '1986-02-01', 24.99, 40, '978-1563893421', 'https://m.media-amazon.com/images/I/71TfU3GnfML.jpg', 'Batman regresa de su retiro', 224, TRUE, 1, 4, 2),
 ('Sandman Vol. 1: Preludes & Nocturnes', '1989-01-01', 19.99, 35, '978-1401237655', 'https://m.media-amazon.com/images/I/810n6p+2ceL._AC_UF1000,1000_QL80_.jpg', 'Primer volumen de la saga de Morfeo', 240, TRUE, 1, 5, 2),
-('X-Men #1', '1963-09-10', 12.99, 25, '978-0785104450', 'https://static.wikia.nocookie.net/marveldatabase/images/2/2f/X-Men_Vol_1_1.jpg/revision/latest?cb=20180128172113', 'Primera aparición de los X-Men', 32, FALSE, 1, 1, 1);
+('X-Men #1', '1963-09-10', 12.99, 25, '978-0785104450', 'https://m.media-amazon.com/images/I/51hf9gBWbfL._SY445_SX342_.jpg', 'Primera aparición de los X-Men', 32, FALSE, 1, 1, 1);
 
 INSERT INTO user(name,last_name,email,nick,password,active) VALUES ('Juan', 'Pérez', 'juan.perez@example.com', 'juanp', '1234', 1);
 INSERT INTO review(rating,review_text,user_id,comic_id) VALUES (5,'Batman es dios',1,3);
