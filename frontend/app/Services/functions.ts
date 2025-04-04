@@ -55,6 +55,33 @@ export const getComicById = async (comicId:number): Promise<ComicDTO> => {
     }
 }
 
+export const getComicByTitle = async (comicTitle:string): Promise<ComicDTO[]> => {
+
+    try {
+
+        console.log("Getting comics by title");
+        const response = await fetch(`${API_BASE_URL}/api/comics/title/${comicTitle}`, {
+            method:"GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Basic " + btoa(`${NICK}:${PASSWORD}`),
+            },
+        });
+
+        if(!response.ok){
+            throw new Error(`Error ${response.status}: Could't get the comics`)
+        }
+
+        const comics = await response.json();
+        return comics;
+        
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+
+}
+
 export const getAllPublishers = async () : Promise<PublisherDTO[]> => {
     try{
         const response = await fetch(`${API_BASE_URL}/api/publishers/`, {
