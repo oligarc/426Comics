@@ -11,6 +11,7 @@ function Header() {
                     <ul className='flex list-none gap-x-6 items-center'>
                         <li><Logo/></li>
                         <li className='text-2xl'><Link to="#">Qué es 426Comics</Link></li>
+                        <li className='text-2xl'><Link to="/publishers">Editoriales</Link></li>
                         <li className='text-2xl'><Link to="#">¡Únete!</Link></li>
                     </ul>
                 </nav>
