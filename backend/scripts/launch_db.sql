@@ -8,13 +8,15 @@ CREATE DATABASE IF NOT EXISTS comics_db;
 USE comics_db;
 ------------------------------------------
 -- Drop tables for new launches/catching errors --
-DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS comic;
-DROP TABLE IF EXISTS author;
-DROP TABLE IF EXISTS publisher;
+-- Need to drop tables in an order because of FK --
 DROP TABLE IF EXISTS review;
 DROP TABLE IF EXISTS user_collection;
-DROP TABLE IF EXISTS ROLES;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS comic;
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS author;
+DROP TABLE IF EXISTS publisher;
+
 ------------------------------------------
 
 ------------------------------------------
@@ -27,17 +29,17 @@ CREATE TABLE user(
     email VARCHAR(50) NOT NULL UNIQUE,
     nick VARCHAR(20) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL, -- Hashed pw by the way --
-    active TINYINT(1), --Can just be 1 or 0, as we want
+    active TINYINT(1), -- Can just be 1 or 0, as we want
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-CREATE table ROLES(
+CREATE table roles(
 	user_id INT NOT NULL,
     role VARCHAR(50) NOT NULL,
     PRIMARY KEY (user_id,role),
     FOREIGN KEY (user_id) REFERENCES User(id)
-)
+);
 
 CREATE TABLE comic(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
