@@ -284,5 +284,8 @@ VALUES
 INSERT INTO user(name,last_name,email,nick,password,active) VALUES ('Juan', 'Pérez', 'juan.perez@example.com', 'juanp', '1234', 1);
 INSERT INTO user(name,last_name,email,nick,password,active) VALUES ('Oliver', 'Garcia', '426@gmail.com', 'oli699', '{bcrypt}$2a$12$oLgN.xK2TiGn2eb5dwl75.jU3QiNoOYCZCutOY9ArjY/FcDyqOUQq', 1);
 
+INSERT INTO roles(user_id,role) VALUES (2,'ROLE_ADMIN');
+INSERT INTO roles(user_id,role) VALUES (1,'ROLE_USER');
+
 INSERT INTO review(rating,review_text,user_id,comic_id) VALUES (5,'Batman es dios',1,3);
 -- ----------------------------------------
