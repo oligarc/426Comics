@@ -29,4 +29,5 @@ public interface ComicRepository extends JpaRepository<Comic,Integer> {
     List<Comic> findByPageCountBetween(Integer minPages, Integer maxPages);
 
     List<Comic> findByStockBetween(Integer minStock, Integer maxStock);
+    List<Comic> findByPublisherId(int publisherId);
 }

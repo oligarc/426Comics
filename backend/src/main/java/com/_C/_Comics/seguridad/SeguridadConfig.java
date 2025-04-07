@@ -62,6 +62,7 @@ public class SeguridadConfig {
                                 "/api/comics/{id}",
                                 "/api/comics/author/{authorName}",
                                 "/api/comics/title/{title}",
+                                "/api/comics/publisherId/{publisherId}",
                                 "/api/comics/publisher/{publisherName}",
                                 "/api/comics/isbn/{isbn}",
                                 "/api/comics/page-range",

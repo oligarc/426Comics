@@ -64,6 +64,12 @@ public class ServiceComicImpl implements ServiceComic {
     }
 
     @Override
+    public List<ComicDTO> getComicsByPublisherId(int publisherId) {
+        List<Comic> comics = comicRepository.findByPublisherId(publisherId);
+        return comics.stream().map(this::convertToComicDTO).collect(Collectors.toList());
+    }
+
+    @Override
     public ComicDTO getComicByISBN(String ISBN) {
         Comic comic = comicRepository.findByIsbn(ISBN);
         return convertToComicDTO(comic);

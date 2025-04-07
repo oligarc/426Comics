@@ -52,6 +52,11 @@ public class ComicRestController {
         return serviceComic.getComicsByPublisherName(publisherName);
     }
 
+    @GetMapping("/publisherId/{publisherId}")
+    public List<ComicDTO> getComicsByPublisherId(@PathVariable int publisherId){
+        return serviceComic.getComicsByPublisherId(publisherId);
+    }
+
     @GetMapping("/isbn/{isbn}")
     public ComicDTO getComicByISBN(@PathVariable String isbn){
         return serviceComic.getComicByISBN(isbn);

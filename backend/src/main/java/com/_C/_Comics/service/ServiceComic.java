@@ -12,6 +12,7 @@ public interface ServiceComic {
     public List<ComicDTO> getComicsByName(String title);
     public List<ComicDTO> getComicsByAuthorName(String authorName,String authorLastName);
     public List<ComicDTO> getComicsByPublisherName(String publisher);
+    public List<ComicDTO> getComicsByPublisherId(int publisherId);
     public ComicDTO getComicByISBN(String ISBN);
     public List<ComicDTO> getComicsByPriceRange(BigDecimal minimum,BigDecimal max);
     public List<ComicDTO> getComicsByPageCountRange(int minimum, int max);
