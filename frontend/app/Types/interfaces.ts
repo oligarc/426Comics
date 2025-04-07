@@ -40,4 +40,8 @@ export interface PublisherDTO{
     logoUrl:string
 }
 
+export interface ComicListProps{
+    comicsList : ComicDTO [];
+}
+
 //Need to configure the other interfaces

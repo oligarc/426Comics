@@ -30,20 +30,43 @@ const comicDetails: React.FC = () => {
   }
 
   return (
-    <div className="comic-details">
-      <div className="w-full px-20">
-        <div className="flex justify-center">
-          <div className="comic-card">
-            <h1>{comic.title}</h1>
-            <img src={comic.coverUrl} alt={comic.title} width={300} />
-            <p>{comic.description}</p>
-            <p>Precio: {comic.price}€</p>
-            <p>Fecha de lanzamiento: {comic.launchDate}</p>
-            <p>Páginas: {comic.pageCount}</p>
-          </div>
+    <div className="comic-details bg-gray-100 py-12">
+  <div className="container mx-auto px-4">
+    <div className="flex justify-center">
+      <div className="comic-card bg-white rounded-xl shadow-lg p-8 max-w-3xl w-full">
+        <h1 className="text-4xl font-bold text-cyan-600 mb-6">{comic.title}</h1>
+        <div className="flex justify-center mb-6">
+          <img
+            src={comic.coverUrl}
+            alt={comic.title}
+            className="rounded-lg shadow-lg"
+            width={500}
+            style={{ objectFit: "contain" }}
+          />
+        </div>
+        <p className="text-lg text-gray-700 mb-4">{comic.description}</p>
+        <div className="flex flex-col space-y-2">
+          <p className="text-lg text-gray-900 font-semibold">
+            <span className="text-gray-600">Precio:</span> {comic.price}€
+          </p>
+          <p className="text-lg text-gray-900 font-semibold">
+            <span className="text-gray-600">Fecha de lanzamiento:</span> {comic.launchDate}
+          </p>
+          <p className="text-lg text-gray-900 font-semibold">
+            <span className="text-gray-600">Páginas:</span> {comic.pageCount}
+          </p>
+          <p className="text-lg text-gray-900 font-semibold">
+            <span className="text-gray-600">Edita:</span> {comic.publisherDTO.name}
+          </p>
+          <p className="text-lg text-gray-900 font-semibold">
+            <span className="text-gray-600">Autor:</span> {comic.authorDTO.name} {comic.authorDTO.lastName}
+          </p>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
   );
 };
 
