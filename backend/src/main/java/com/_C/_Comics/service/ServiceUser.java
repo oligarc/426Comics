@@ -9,5 +9,6 @@ public interface ServiceUser {
     UserDTO createUser(User user);
     UserDTO updateUser(int id, User user);
     void deleteUser(int id);
+    boolean validateUser(String nick,String password);
 
 }

@@ -8,6 +8,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -16,6 +17,15 @@ import javax.sql.DataSource;
 
 @Configuration
 public class SeguridadConfig {
+
+    //NEW
+    //private final JwtTokenProvider jwtTokenProvider;
+
+    //NEW
+    /*public SeguridadConfig(JwtTokenProvider jwtTokenProvider){
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
+     */
 
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
@@ -54,6 +64,7 @@ public class SeguridadConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.cors().configurationSource(corsConfigurationSource()); //We apply the cors configuration in the filterChain
+        //http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         http.authorizeHttpRequests(configurer ->
                 configurer
 
@@ -82,9 +93,12 @@ public class SeguridadConfig {
                                 "/api/publishers/province/{province}",
                                 "/api/publishers/town/{town}",
                                 "/api/reviews/id/{comicId}",
-                                "/api/reviews/name/{comicName}")
+                                "/api/reviews/name/{comicName}"
+                                )
                         .permitAll()
 
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/auth/login").permitAll()
 
                         .requestMatchers(HttpMethod.POST,
                                 "/api/comics/",

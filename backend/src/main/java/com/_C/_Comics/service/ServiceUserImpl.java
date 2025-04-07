@@ -3,12 +3,15 @@ package com._C._Comics.service;
 import com._C._Comics.dto.UserDTO;
 import com._C._Comics.entity.User;
 import com._C._Comics.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ServiceUserImpl implements ServiceUser {
 
     private UserRepository userRepository;
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     public ServiceUserImpl(UserRepository v_userRepository){
         this.userRepository=v_userRepository;
     }
@@ -49,6 +52,21 @@ public class ServiceUserImpl implements ServiceUser {
         userRepository.delete(existingUser);
     }
 
+    @Override
+    public boolean validateUser(String nick, String password) {
+        User user = userRepository.findByNick(nick);
+
+        if (user == null) {
+            return false;
+        }
+
+        boolean passwordMatches = passwordEncoder.matches(password, user.getPassword());
+        if (!passwordMatches) {
+            System.out.println("Invalid password for user: " + nick);
+        }
+
+        return passwordMatches;
+    }
 
 
     private UserDTO convertToUserDTO(User user){
