@@ -82,6 +82,52 @@ export const getComicByTitle = async (comicTitle:string): Promise<ComicDTO[]> =>
 
 }
 
+export const getComicsByPublisherId = async (publisherId : number) : Promise<ComicDTO[]> =>{
+    
+    try{
+
+        const response = await fetch (`${API_BASE_URL}/api/comics/publisherId/${publisherId}`, {
+            method:"GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Basic " + btoa(`${NICK}:${PASSWORD}`),
+            },
+    });
+
+    if(!response.ok){
+        throw new Error(`Error ${response.status}: Could't get the comics`)
+    }
+
+    const comics = await response.json();
+    return comics;
+
+    }catch(error){
+        console.error(error);
+        return [];
+    }
+}
+
+export const getPublisherNameById = async (publisherId : number) : Promise<String> => {
+    try{
+
+        const response = await fetch (`${API_BASE_URL}/api/publishers/nameWithId/${publisherId}`, {
+            method:"GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Basic " + btoa(`${NICK}:${PASSWORD}`),
+            },
+    });
+
+    const publisherName = await response.text(); //As we are only waiting for a string
+    return publisherName;
+        
+        
+    }catch(error){
+        console.error(error);
+        return "";
+    }
+}
+
 export const getAllPublishers = async () : Promise<PublisherDTO[]> => {
     try{
         const response = await fetch(`${API_BASE_URL}/api/publishers/`, {
@@ -104,3 +150,5 @@ export const getAllPublishers = async () : Promise<PublisherDTO[]> => {
         return [];
     }
 }
+
+

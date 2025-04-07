@@ -6,6 +6,7 @@ export default [
         route("login","routes/login.tsx"),
         route("/publishers","routes/publishers.tsx"),
         route("/comicDetails/:id","routes/comicDetails.tsx"),
-        route("/title/:title","routes/title.tsx")
+        route("/title/:title","routes/title.tsx"),
+        route("/publisherDetails/:id","routes/publishersDetails.tsx")
     ]
 )] satisfies RouteConfig;
