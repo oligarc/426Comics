@@ -28,6 +28,11 @@ public class PublisherRestController {
         return servicePublisher.getPublisherByName(publisherName);
     }
 
+    @GetMapping("/nameWithId/{publisherId}")
+    public String getPublisherById(@PathVariable int publisherId){
+        return servicePublisher.getPublisherNameById(publisherId);
+    }
+
     @GetMapping("/postalCode/{postalCode}")
     public List<PublisherDTO> getPublishersByPostalCode(@PathVariable int postalCode){
         return servicePublisher.getPublishersByPostalCode(postalCode);

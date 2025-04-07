@@ -5,6 +5,7 @@ import com._C._Comics.entity.Publisher;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PublisherRepository extends JpaRepository<Publisher, Integer> {
 
@@ -15,4 +16,7 @@ public interface PublisherRepository extends JpaRepository<Publisher, Integer> {
     List<Publisher> findByTownContainingIgnoreCase(String town);
 
     List<Publisher> findByProvinceContainingIgnoreCase(String province);
+
+    Optional<Publisher> findById(int id);
+
 }

@@ -47,6 +47,14 @@ public class ServicePublisherImpl implements ServicePublisher {
     }
 
     @Override
+    public String getPublisherNameById(int id) {
+        return publisherRepository.findById(id)
+                .map(Publisher::getName)
+                .orElse("Nombre no encontrado");
+    }
+
+
+    @Override
     public Publisher addPublisher(Publisher publisher) {
         return publisherRepository.save(publisher);
     }

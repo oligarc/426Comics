@@ -77,6 +77,7 @@ public class SeguridadConfig {
                                 "/api/authors/drawers",
                                 "/api/publishers/",
                                 "/api/publishers/name/{publisherName}",
+                                "/api/publishers/nameWithId/{publisherId}",
                                 "/api/publishers/postalCode/{postalCode}",
                                 "/api/publishers/province/{province}",
                                 "/api/publishers/town/{town}",
