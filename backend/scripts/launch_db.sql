@@ -22,6 +22,12 @@ DROP TABLE IF EXISTS publisher;
 ------------------------------------------
 -- Creating tables --
 
+CREATE table roles(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL UNIQUE
+);
+
+
 CREATE TABLE user(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -30,16 +36,13 @@ CREATE TABLE user(
     nick VARCHAR(20) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL, -- Hashed pw by the way --
     active TINYINT(1), -- Can just be 1 or 0, as we want
+    role_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
-CREATE table roles(
-	user_id INT NOT NULL,
-    role VARCHAR(50) NOT NULL,
-    PRIMARY KEY (user_id,role),
-    FOREIGN KEY (user_id) REFERENCES User(id)
-);
+
 
 CREATE TABLE comic(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -281,11 +284,12 @@ VALUES
 ('Absolute Power', '2025-04-03', 7.60, 100, '978-84-1051-958-9', 'https://i1.whakoom.com/small/0d/28/fde46ef76096453981847d897aa48980.jpg', 'Una historia épica donde Amanda Waller roba los poderes de los héroes de DC, sumiendo al mundo en el caos. Los héroes, despojados de sus habilidades, luchan por sobrevivir y restaurar el orden.', 192, FALSE, NULL, 7, 3),
 ('Absolute Batman #1', '2025-04-03', 2.50, 50, '977308128600700001', 'https://comicsbarcelona.com/wp-content/uploads/2025/02/GkpAwa5WYAAAw91.jpg', 'Es uno de los héroes más icónicos héroes de DC, pero sin su mansión, sin su dinero, sin su mayordomo… ¡Lo que queda es el Caballero Oscuro en su versión Absolute! Prepárate para esta reinterpretación de la mitología de Batman y, también, de un viejo conocido, Alfred Pennyworth.', 48, TRUE, 1, 6, 3);
 
-INSERT INTO user(name,last_name,email,nick,password,active) VALUES ('Juan', 'Pérez', 'juan.perez@example.com', 'juanp', '1234', 1);
-INSERT INTO user(name,last_name,email,nick,password,active) VALUES ('Oliver', 'Garcia', '426@gmail.com', 'oli699', '{bcrypt}$2a$12$oLgN.xK2TiGn2eb5dwl75.jU3QiNoOYCZCutOY9ArjY/FcDyqOUQq', 1);
 
-INSERT INTO roles(user_id,role) VALUES (2,'ROLE_ADMIN');
-INSERT INTO roles(user_id,role) VALUES (1,'ROLE_USER');
+INSERT INTO roles (nombre) VALUES ('ADMIN'), ('USER');
+
+
+INSERT INTO user(name,last_name,email,nick,password,active,role_id) VALUES ('Oliver', 'Garcia', '426@gmail.com', 'oli699', '{bcrypt}$2a$12$oLgN.xK2TiGn2eb5dwl75.jU3QiNoOYCZCutOY9ArjY/FcDyqOUQq', 1,1);
+INSERT INTO user(name,last_name,email,nick,password,active,role_id) VALUES ('Juan', 'Pérez', 'juan.perez@example.com', 'juanp', '1234', 1,2);
 
 INSERT INTO review(rating,review_text,user_id,comic_id) VALUES (5,'Batman es dios',1,3);
 -- ----------------------------------------

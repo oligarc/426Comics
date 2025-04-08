@@ -1,9 +1,8 @@
 package com._C._Comics.service;
 
 import com._C._Comics.dto.UserDTO;
-import com._C._Comics.entity.User;
+import com._C._Comics.models.User;
 import com._C._Comics.repository.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

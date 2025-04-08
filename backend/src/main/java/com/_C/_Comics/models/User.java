@@ -1,19 +1,22 @@
-package com._C._Comics.entity;
+package com._C._Comics.models;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "user", schema = "comics_db")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -34,9 +37,12 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ColumnDefault("'USER'")
-    @Column(name = "role", length = 20)
-    private String role;
+    @Column(name = "active")
+    private Boolean active;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -47,25 +53,13 @@ public class User {
     private Instant updatedAt;
 
     @OneToMany(mappedBy = "user")
-    private List<Review> reviews = new ArrayList<Review>();
+    private Set<Review> reviews = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "user")
-    private List<UserCollection> userCollections = new ArrayList<UserCollection>();
+    private Set<UserCollection> userCollections = new LinkedHashSet<>();
 
-    public List<UserCollection> getUserCollections() {
-        return userCollections;
-    }
+    public User(){
 
-    public void setUserCollections(List<UserCollection> userCollections) {
-        this.userCollections = userCollections;
-    }
-
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
     }
 
     public Integer getId() {
@@ -108,19 +102,58 @@ public class User {
         this.nick = nick;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.getNombre()));
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return "";
+    }
+
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getRole() {
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -138,6 +171,22 @@ public class User {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public Set<UserCollection> getUserCollections() {
+        return userCollections;
+    }
+
+    public void setUserCollections(Set<UserCollection> userCollections) {
+        this.userCollections = userCollections;
     }
 
 }

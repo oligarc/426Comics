@@ -1,9 +1,7 @@
 package com._C._Comics.restController;
 
-import com._C._Comics.dto.AuthorDTO;
 import com._C._Comics.dto.ComicDTO;
-import com._C._Comics.entity.Comic;
-import com._C._Comics.service.ServiceAuthor;
+import com._C._Comics.models.Comic;
 import com._C._Comics.service.ServiceComic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,10 +1,14 @@
 package com._C._Comics.seguridad;
 
+import com._C._Comics.jwt.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -16,7 +20,16 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import javax.sql.DataSource;
 
 @Configuration
+@EnableWebSecurity
 public class SeguridadConfig {
+
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private AuthenticationProvider authProvider;
+
+    public SeguridadConfig(JwtAuthenticationFilter jwtAuthenticationFilter, AuthenticationProvider authProvider) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.authProvider = authProvider;
+    }
 
     //NEW
     //private final JwtTokenProvider jwtTokenProvider;
@@ -27,7 +40,7 @@ public class SeguridadConfig {
     }
      */
 
-    @Bean
+    /*@Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
         JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
 
@@ -44,6 +57,9 @@ public class SeguridadConfig {
 
         return manager;
     }
+
+    */
+
 
     //Needed to configure CORS to permit communication between front and back
 
@@ -93,14 +109,18 @@ public class SeguridadConfig {
                                 "/api/publishers/province/{province}",
                                 "/api/publishers/town/{town}",
                                 "/api/reviews/id/{comicId}",
-                                "/api/reviews/name/{comicName}"
+                                "/api/reviews/name/{comicName}",
+                                "api/auth/**"
                                 )
                         .permitAll()
 
                         .requestMatchers(HttpMethod.POST,
-                                "/api/auth/login").permitAll()
-
+                                "api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST,
+                                "/api/collection/add/{comicId}/{nick}").authenticated()
+
+
+                        /*.requestMatchers(HttpMethod.POST,
                                 "/api/comics/",
                                 "/api/authors/",
                                 "/api/publishers/"
@@ -126,8 +146,12 @@ public class SeguridadConfig {
                                 "/api/authors/{id}",
                                 "/api/publishers/{id}"
                         )
-                        .hasRole("ADMIN")
-        );
+                        .hasRole("ADMIN")*/
+        ).sessionManagement(sessioManager ->
+                sessioManager
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authProvider)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
 
         http.csrf(csrf -> csrf.disable());

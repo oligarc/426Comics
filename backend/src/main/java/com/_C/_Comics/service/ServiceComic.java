@@ -1,7 +1,7 @@
 package com._C._Comics.service;
 
 import com._C._Comics.dto.ComicDTO;
-import com._C._Comics.entity.Comic;
+import com._C._Comics.models.Comic;
 
 import java.math.BigDecimal;
 import java.util.List;

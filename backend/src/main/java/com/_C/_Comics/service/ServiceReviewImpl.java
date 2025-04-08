@@ -1,12 +1,10 @@
 package com._C._Comics.service;
 
-import com._C._Comics.dto.ComicDTO;
 import com._C._Comics.dto.ReviewDTO;
 import com._C._Comics.dto.UserDTO;
-import com._C._Comics.entity.Author;
-import com._C._Comics.entity.Comic;
-import com._C._Comics.entity.Review;
-import com._C._Comics.entity.User;
+import com._C._Comics.models.Comic;
+import com._C._Comics.models.Review;
+import com._C._Comics.models.User;
 import com._C._Comics.repository.ComicRepository;
 import com._C._Comics.repository.ReviewRepository;
 import com._C._Comics.repository.UserRepository;

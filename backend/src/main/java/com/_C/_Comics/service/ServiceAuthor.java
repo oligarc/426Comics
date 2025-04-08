@@ -1,7 +1,7 @@
 package com._C._Comics.service;
 
 import com._C._Comics.dto.AuthorDTO;
-import com._C._Comics.entity.Author;
+import com._C._Comics.models.Author;
 
 import java.util.List;
 

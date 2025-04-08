@@ -1,7 +1,7 @@
 package com._C._Comics.service;
 
 import com._C._Comics.dto.ReviewDTO;
-import com._C._Comics.entity.Review;
+import com._C._Comics.models.Review;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com._C._Comics.entity;
+package com._C._Comics.models;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -31,6 +31,10 @@ public class UserCollection {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "comic_id", nullable = false)
     private Comic comic;
+
+    public UserCollection(){
+
+    }
 
     public Integer getId() {
         return id;

@@ -1,7 +1,7 @@
 package com._C._Comics.restController;
 
 import com._C._Comics.dto.UserDTO;
-import com._C._Comics.entity.User;
+import com._C._Comics.models.User;
 import com._C._Comics.service.ServiceUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

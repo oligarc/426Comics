@@ -1,8 +1,7 @@
 package com._C._Comics.restController;
 
 import com._C._Comics.dto.ReviewDTO;
-import com._C._Comics.entity.Review;
-import com._C._Comics.repository.ReviewRepository;
+import com._C._Comics.models.Review;
 import com._C._Comics.service.ServiceReview;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

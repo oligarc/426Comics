@@ -1,7 +1,5 @@
 package com._C._Comics.dto;
 
-import com._C._Comics.entity.Comic;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;

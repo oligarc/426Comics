@@ -1,11 +1,11 @@
 package com._C._Comics.service;
 
 import com._C._Comics.dto.*;
-import com._C._Comics.entity.Author;
-import com._C._Comics.entity.Publisher;
+import com._C._Comics.models.Author;
+import com._C._Comics.models.Publisher;
 import com._C._Comics.repository.AuthorRepository;
 import com._C._Comics.repository.ComicRepository;
-import com._C._Comics.entity.Comic;
+import com._C._Comics.models.Comic;
 import com._C._Comics.repository.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

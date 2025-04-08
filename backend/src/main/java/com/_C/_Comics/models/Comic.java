@@ -1,4 +1,4 @@
-package com._C._Comics.entity;
+package com._C._Comics.models;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -9,9 +9,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "comic", schema = "comics_db")

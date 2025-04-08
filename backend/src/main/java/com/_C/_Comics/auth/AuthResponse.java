@@ -1,11 +1,11 @@
-package com._C._Comics.seguridad;
+package com._C._Comics.auth;
 
-public class JwtAuthenticationResponse {
+public class AuthResponse {
 
     private String token;
 
-    public JwtAuthenticationResponse(String token){
-        this.token = token;
+    public AuthResponse(){
+
     }
 
     public String getToken() {

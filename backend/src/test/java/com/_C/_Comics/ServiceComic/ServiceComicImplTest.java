@@ -1,7 +1,6 @@
 package com._C._Comics.ServiceComic;
 
 import com._C._Comics.dto.ComicDTO;
-import com._C._Comics.entity.Comic;
 import com._C._Comics.service.ServiceComicImpl;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;

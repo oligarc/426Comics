@@ -1,4 +1,4 @@
-package com._C._Comics.entity;
+package com._C._Comics.models;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Table;

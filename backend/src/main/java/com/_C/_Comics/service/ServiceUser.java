@@ -1,7 +1,7 @@
 package com._C._Comics.service;
 
 import com._C._Comics.dto.UserDTO;
-import com._C._Comics.entity.User;
+import com._C._Comics.models.User;
 
 public interface ServiceUser {
 

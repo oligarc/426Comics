@@ -1,7 +1,6 @@
-package com._C._Comics.entity;
+package com._C._Comics.models;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 

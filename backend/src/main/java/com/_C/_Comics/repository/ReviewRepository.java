@@ -1,6 +1,6 @@
 package com._C._Comics.repository;
 
-import com._C._Comics.entity.Review;
+import com._C._Comics.models.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
