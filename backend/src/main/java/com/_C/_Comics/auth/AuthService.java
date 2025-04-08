@@ -7,6 +7,9 @@ import com._C._Comics.models.User;
 import com._C._Comics.repository.RoleRepository;
 import com._C._Comics.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,21 +22,29 @@ public class AuthService {
     private RoleRepository roleRepository;
     private JwtService jwtService;
     private PasswordEncoder passwordEncoder;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    public AuthService(UserRepository userRepository, RoleRepository roleRepository, JwtService jwtService,PasswordEncoder passwordEncoder) {
+    public AuthService(UserRepository userRepository, RoleRepository roleRepository, JwtService jwtService,PasswordEncoder passwordEncoder,AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.jwtService = jwtService;
         this.passwordEncoder=passwordEncoder;
+        this.authenticationManager=authenticationManager;
     }
 
-    /*public AuthResponse login(LoginRequest request) {
+    public AuthResponse login(LoginRequest request) {
 
-        return Aut
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getNick(),request.getPassword()));
+        UserDetails user = userRepository.findByNick(request.getNick());
+        String token = jwtService.getToken(user);
+
+        AuthResponse authResponse = new AuthResponse();
+        authResponse.setToken(token);
+        return authResponse;
     }
 
-     */
+
 
     public AuthResponse register(RegisterRequest request) {
 
