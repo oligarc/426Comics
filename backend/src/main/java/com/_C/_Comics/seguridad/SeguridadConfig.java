@@ -112,10 +112,14 @@ public class SeguridadConfig {
                                 "/api/reviews/name/{comicName}",
                                 "api/auth/**"
                                 )
-                        .permitAll()
+                        .authenticated()
 
                         .requestMatchers(HttpMethod.POST,
-                                "api/auth/**").permitAll()
+                                "api/auth/login",
+                                "api/auth/register").permitAll()
+
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/prueba/saludo").authenticated()
                         .requestMatchers(HttpMethod.POST,
                                 "/api/collection/add/{comicId}/{nick}").authenticated()
 

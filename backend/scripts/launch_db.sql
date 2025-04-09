@@ -288,8 +288,8 @@ VALUES
 INSERT INTO roles (nombre) VALUES ('ADMIN'), ('USER');
 
 
-INSERT INTO user(name,last_name,email,nick,password,active,role_id) VALUES ('Oliver', 'Garcia', '426@gmail.com', 'oli699', '{bcrypt}$2a$12$oLgN.xK2TiGn2eb5dwl75.jU3QiNoOYCZCutOY9ArjY/FcDyqOUQq', 1,1);
-INSERT INTO user(name,last_name,email,nick,password,active,role_id) VALUES ('Juan', 'Pérez', 'juan.perez@example.com', 'juanp', '1234', 1,2);
+INSERT INTO user(name,last_name,email,nick,password,active,role_id) VALUES ('Oliver', 'Garcia', '426@gmail.com', 'oli699', '$2a$12$wVJ4g3TO1AmAcV4cpr6LROmhb6B6yxqCVKPGgptnpy4CkGF5SYt4W', 1,1);
+INSERT INTO user(name,last_name,email,nick,password,active,role_id) VALUES ('Juan', 'Pérez', 'juan.perez@example.com', 'juanp', '$2a$12$roFcBOy06rKwyhZJE9sAj.aECBgpuOiKnJoEV6c5Gy.4Ic3Bjjht6', 1,2);
 
 INSERT INTO review(rating,review_text,user_id,comic_id) VALUES (5,'Batman es dios',1,3);
 -- ----------------------------------------

@@ -40,7 +40,7 @@ public class User implements UserDetails {
     @Column(name = "active")
     private Boolean active;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;
 
