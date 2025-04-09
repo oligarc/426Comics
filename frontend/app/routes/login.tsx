@@ -51,7 +51,7 @@ function Login() {
           </div>
           <button
             type="submit"
-            className="w-full bg-cyan-500 text-white p-3 rounded-md hover:bg-cyan-700 transition duration-300"
+            className="cursor-pointer w-full bg-cyan-500 text-white p-3 rounded-md hover:bg-cyan-700 transition duration-300"
           >
             Iniciar sesión
           </button>

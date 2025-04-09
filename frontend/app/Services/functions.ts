@@ -38,10 +38,12 @@ export const getAllComics = async (): Promise<ComicDTO[]> => {
 export const getComicById = async (comicId:number): Promise<ComicDTO> => {
     try{
         console.log("Getting comic by id");
+        const token = sessionStorage.getItem("token");
         const response = await fetch(`${API_BASE_URL}/api/comics/${comicId}`, {
             method:"GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
                 //"Authorization": "Basic " + btoa(`${NICK}:${PASSWORD}`),
             },
         });

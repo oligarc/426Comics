@@ -26,7 +26,9 @@ const comicDetails: React.FC = () => {
   }, [id]); // For every time page reloads, in case we select another comic
 
   if (!comic) {
-    return <div>Cargando detalles del cómic...</div>;
+    return <div>
+      <p className="text-center text-2xl">Cargando detalles del cómic...</p>
+      <p className="text-center mt-4">A veces necesitamos descansar...</p></div>;
   }
 
   return (

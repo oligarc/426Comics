@@ -5,6 +5,7 @@ export default [
         index("routes/welcome.tsx"),
         route("home","routes/home.tsx"),
         route("login","routes/login.tsx"),
+        route("collection","routes/comicCollection.tsx"),
         route("register","routes/register.tsx"),
         route("/publishers","routes/publishers.tsx"),
         route("/comicDetails/:id","routes/comicDetails.tsx"),

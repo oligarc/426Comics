@@ -6,11 +6,13 @@ import Header from '~/Components/Header'
 function Index() {
   return (
     <>
-    <Header />
-    <div className='w-full mx-auto mb-7 flex-grow'>
-        <Outlet/>
+    <div className='flex flex-col min-h-screen'>
+      <Header />
+      <div className='w-full mx-auto mb-7 flex-grow'>
+        <Outlet />
+      </div>
+      <Footer />
     </div>
-    <Footer />
     </>
   )
 }

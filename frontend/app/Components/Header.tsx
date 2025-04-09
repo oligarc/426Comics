@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Logo from './Logo'
 import { Link } from 'react-router'
 import { useUser } from '~/Contexts/UserContext';
+import PersonalLibrary from './PersonalLibrary';
 
 function Header() {
 
@@ -22,7 +23,11 @@ function Header() {
                         <li><Logo/></li>
                         <li className='text-2xl'><Link to="#">Qué es 426Comics</Link></li>
                         <li className='text-2xl'><Link to="/publishers">Editoriales</Link></li>
-                        <li className='text-2xl'><Link to="/register">¡Únete!</Link></li>
+                        {nick ? (
+                          <li className='text-2xl'><Link to="/collection">Tu biblioteca</Link></li>
+                        ):(
+                          <li className='text-2xl'><Link to="/register">¡Únete!</Link></li>
+                        )}
                     </ul>
                 </nav>
                 <div>

@@ -82,7 +82,7 @@ function Register(){
                     </div>
 
                     <button type="submit"
-                    className="w-full bg-cyan-500 text-white p-3 rounded-md hover:bg-cyan-700 transition duration-300 mt-3">
+                    className="cursor-pointer w-full bg-cyan-500 text-white p-3 rounded-md hover:bg-cyan-700 transition duration-300 mt-3">
                     Regístrate
                     </button>
 
