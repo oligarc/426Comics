@@ -9,6 +9,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { UserProvider } from "./Contexts/UserContext";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -42,7 +43,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    //This is where we envolve the app with the UserProvider component
+    <UserProvider>
+      <Outlet />
+    </UserProvider>
+  
+);
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

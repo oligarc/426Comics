@@ -61,6 +61,9 @@ const comicDetails: React.FC = () => {
           <p className="text-lg text-gray-900 font-semibold">
             <span className="text-gray-600">Autor:</span> {comic.authorDTO.name} {comic.authorDTO.lastName}
           </p>
+          <div className="flex justify-center">
+          <button className="bg-cyan-500 hover:bg-cyan-700 px-3 py-3 w-40 text-6xl text-white">+</button>
+          </div>
         </div>
       </div>
     </div>
