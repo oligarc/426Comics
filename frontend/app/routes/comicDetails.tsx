@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { getComicById } from "~/Services/functions";
 import type { ComicDTO } from "~/Types/interfaces";
 
@@ -58,7 +58,7 @@ const comicDetails: React.FC = () => {
             <span className="text-gray-600">Páginas:</span> {comic.pageCount}
           </p>
           <p className="text-lg text-gray-900 font-semibold">
-            <span className="text-gray-600">Edita:</span> {comic.publisherDTO.name}
+          <span className="text-gray-600">Edita:</span> <Link to={`/publisherDetails/${comic.publisherDTO.id}`}> {comic.publisherDTO.name} </Link>
           </p>
           <p className="text-lg text-gray-900 font-semibold">
             <span className="text-gray-600">Autor:</span> {comic.authorDTO.name} {comic.authorDTO.lastName}

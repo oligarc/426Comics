@@ -7,8 +7,8 @@ import { Link } from "react-router";
 
 function Welcome() {
   return (
-    <div className="welcome-container px-8 bg-gray-50 py-6">
-      <section className="section-infoInicial">
+    <div className="welcome-container px-8 bg-gray-50 py-6 min-h-screen">
+      <section className="section-infoInicial mt-10">
         <h1 className="text-4xl text-center text-cyan-700">
           ¿Cansado de no saber cómo organizar tus cómics?
         </h1>
@@ -31,6 +31,12 @@ function Welcome() {
           </div>
           <p className="text-center mt-4">Si ya tienes cuenta, <Link to="/login"><span className="text-cyan-500 underline">inicia sesión</span></Link></p>
         </div>
+      </section>
+
+      {/* add the functions of the app later */}
+      
+      <section>
+
       </section>
     </div>
   );
