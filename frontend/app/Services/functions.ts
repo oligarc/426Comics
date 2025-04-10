@@ -2,18 +2,21 @@ import type { ComicDTO, PublisherDTO } from "~/Types/interfaces";
 
 const API_BASE_URL = "http://localhost:8080";
 
+//Every API service is gonna be authenticated so this down here is deprecated
+/*
 const NICK = "oli699"; //Just use the user you have stored in the DataBase
 const PASSWORD = "fun123";
+*/
 
 export const getAllComics = async (): Promise<ComicDTO[]> => {
     try {
         console.log("Getting comics...");
-
+        const token = sessionStorage.getItem("token");
         const response = await fetch(`${API_BASE_URL}/api/comics/`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Basic " + btoa(`${NICK}:${PASSWORD}`), // Basic Auth, maybe implement JWT?
+                "Authorization": `Bearer ${token}`
             },
         });
 
@@ -35,11 +38,13 @@ export const getAllComics = async (): Promise<ComicDTO[]> => {
 export const getComicById = async (comicId:number): Promise<ComicDTO> => {
     try{
         console.log("Getting comic by id");
+        const token = sessionStorage.getItem("token");
         const response = await fetch(`${API_BASE_URL}/api/comics/${comicId}`, {
             method:"GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Basic " + btoa(`${NICK}:${PASSWORD}`),
+                "Authorization": `Bearer ${token}`
+                //"Authorization": "Basic " + btoa(`${NICK}:${PASSWORD}`),
             },
         });
 
@@ -64,7 +69,7 @@ export const getComicByTitle = async (comicTitle:string): Promise<ComicDTO[]> =>
             method:"GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Basic " + btoa(`${NICK}:${PASSWORD}`),
+                //"Authorization": "Basic " + btoa(`${NICK}:${PASSWORD}`),
             },
         });
 
@@ -90,7 +95,7 @@ export const getComicsByPublisherId = async (publisherId : number) : Promise<Com
             method:"GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Basic " + btoa(`${NICK}:${PASSWORD}`),
+                //"Authorization": "Basic " + btoa(`${NICK}:${PASSWORD}`),
             },
     });
 
@@ -114,7 +119,7 @@ export const getPublisherNameById = async (publisherId : number) : Promise<Strin
             method:"GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Basic " + btoa(`${NICK}:${PASSWORD}`),
+                //"Authorization": "Basic " + btoa(`${NICK}:${PASSWORD}`),
             },
     });
 
@@ -134,7 +139,7 @@ export const getAllPublishers = async () : Promise<PublisherDTO[]> => {
             method: "GET",
             headers : {
                 "Content-Type": "application/json",
-                "Authorization": "Basic " +btoa(`${NICK}:${PASSWORD}`),
+                //"Authorization": "Basic " +btoa(`${NICK}:${PASSWORD}`),
             },
         });
 

@@ -5,7 +5,7 @@ import type { ComicDTO, ComicListProps } from "~/Types/interfaces";
 
 const ComicsList: React.FC<ComicListProps> = ({comicsList}) => {
 
- /* const [comics, setComics] = useState<ComicDTO[]>([]);
+ const [comics, setComics] = useState<ComicDTO[]>([]);
 
   useEffect(() => {
     const fetchComics = async () => {
@@ -15,8 +15,6 @@ const ComicsList: React.FC<ComicListProps> = ({comicsList}) => {
 
     fetchComics();
   }, []);
-
-  */
 
   return (
     <div className="comics-container py-8 px-4">
