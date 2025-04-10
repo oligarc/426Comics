@@ -3,6 +3,8 @@ package com._C._Comics.service;
 import com._C._Comics.dto.AuthorDTO;
 import com._C._Comics.models.Author;
 import com._C._Comics.repository.AuthorRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,9 +20,17 @@ public class ServiceAuthorImpl implements ServiceAuthor {
         this.authorRepository=v_authorRepository;
     }
 
+    /*
     @Override
     public List<AuthorDTO> getAllAuthors() {
         return authorRepository.findAll().stream().map(this::converToAuthorDTO).toList();
+    }
+    */
+
+    @Override
+    public Page<AuthorDTO> getAllAuthors(Pageable pageable) {
+        Page<Author> authorPage = authorRepository.findAll(pageable);
+        return authorPage.map(this::converToAuthorDTO);
     }
 
     @Override

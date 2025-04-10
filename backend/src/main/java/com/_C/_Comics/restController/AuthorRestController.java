@@ -4,6 +4,8 @@ import com._C._Comics.dto.AuthorDTO;
 import com._C._Comics.models.Author;
 import com._C._Comics.service.ServiceAuthor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +21,8 @@ public class AuthorRestController {
     }
 
     @GetMapping("/")
-    public List<AuthorDTO> allAuthors(){
-        return serviceAuthor.getAllAuthors();
+    public Page<AuthorDTO> allAuthors(Pageable pageable){
+        return serviceAuthor.getAllAuthors(pageable);
     }
 
     @GetMapping("/id/{id}")

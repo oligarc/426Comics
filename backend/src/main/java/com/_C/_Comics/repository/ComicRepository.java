@@ -1,6 +1,8 @@
 package com._C._Comics.repository;
 
 import com._C._Comics.models.Comic;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,5 +30,5 @@ public interface ComicRepository extends JpaRepository<Comic,Integer> {
     List<Comic> findByPageCountBetween(Integer minPages, Integer maxPages);
 
     List<Comic> findByStockBetween(Integer minStock, Integer maxStock);
-    List<Comic> findByPublisherId(int publisherId);
+    Page<Comic> findByPublisherId(Pageable pageable,int publisherId);
 }

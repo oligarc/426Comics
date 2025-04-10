@@ -8,6 +8,8 @@ import com._C._Comics.repository.ComicRepository;
 import com._C._Comics.models.Comic;
 import com._C._Comics.repository.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -28,10 +30,18 @@ public class ServiceComicImpl implements ServiceComic {
         this.publisherRepository=v_publisherRepository;
     }
 
-    @Override
+    /*@Override
     public List<ComicDTO> getAllComics() {
         List<Comic> comics = comicRepository.findAll();
         return comics.stream().map(this::convertToComicDTO).collect(Collectors.toList());
+    }
+    */
+
+
+    @Override
+    public Page<ComicDTO> getAllComics(Pageable pageable) {
+        Page<Comic> comicsPage = comicRepository.findAll(pageable);
+        return comicsPage.map(this::convertToComicDTO);
     }
 
     @Override
@@ -64,10 +74,19 @@ public class ServiceComicImpl implements ServiceComic {
     }
 
     @Override
+    public Page<ComicDTO> getComicsByPublisherId(Pageable pageable, int publisherId) {
+        Page<Comic> comicsPagePublisher = comicRepository.findByPublisherId(pageable,publisherId);
+        return  comicsPagePublisher.map(this::convertToComicDTO);
+    }
+
+    /*
+    @Override
     public List<ComicDTO> getComicsByPublisherId(int publisherId) {
         List<Comic> comics = comicRepository.findByPublisherId(publisherId);
         return comics.stream().map(this::convertToComicDTO).collect(Collectors.toList());
     }
+    */
+
 
     @Override
     public ComicDTO getComicByISBN(String ISBN) {

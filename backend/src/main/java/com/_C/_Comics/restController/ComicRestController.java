@@ -4,6 +4,8 @@ import com._C._Comics.dto.ComicDTO;
 import com._C._Comics.models.Comic;
 import com._C._Comics.service.ServiceComic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -22,8 +24,8 @@ public class ComicRestController {
     }
 
     @GetMapping("/")
-    public List<ComicDTO> allComics(){
-        return serviceComic.getAllComics();
+    public Page<ComicDTO> allComics(Pageable pageable){
+        return serviceComic.getAllComics(pageable);
     }
 
     @GetMapping("/{id}")
@@ -51,8 +53,8 @@ public class ComicRestController {
     }
 
     @GetMapping("/publisherId/{publisherId}")
-    public List<ComicDTO> getComicsByPublisherId(@PathVariable int publisherId){
-        return serviceComic.getComicsByPublisherId(publisherId);
+    public Page<ComicDTO> getComicsByPublisherId(@PathVariable int publisherId, Pageable pageable){
+        return serviceComic.getComicsByPublisherId(pageable,publisherId);
     }
 
     @GetMapping("/isbn/{isbn}")
