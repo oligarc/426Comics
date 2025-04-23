@@ -24,7 +24,10 @@ function Header() {
                         <li className='text-2xl'><Link to="#">Qué es 426Comics</Link></li>
                         <li className='text-2xl'><Link to="/publishers">Editoriales</Link></li>
                         {nick ? (
+                          <>
+                          <li className='text-2xl'><Link to="/authors">Autores</Link></li>
                           <li className='text-2xl'><Link to="/collection">Tu biblioteca</Link></li>
+                          </>
                         ):(
                           <li className='text-2xl'><Link to="/register">¡Únete!</Link></li>
                         )}

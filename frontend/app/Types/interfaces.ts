@@ -1,3 +1,15 @@
+export interface Page<T> {
+    content: T[];          // T is a generic Type
+    pageable: {
+      pageNumber: number;  
+      pageSize: number;    
+    };
+    totalElements: number; 
+    totalPages: number;    
+    last: boolean;        
+    first: boolean;        
+  }
+
 export interface ComicDTO{
     id:number,
     title:string,
@@ -23,7 +35,7 @@ export interface AuthorDTO{
     birthDate:string,
     deathDate:string | null,
     biography:string | null,
-    photoUrl:string | null,
+    photoUrl:string ,
     drawer:boolean,
     scriptwriter:boolean
 }
@@ -42,6 +54,10 @@ export interface PublisherDTO{
 
 export interface ComicListProps{
     comicsList : ComicDTO [];
+}
+
+export interface AuthorListProps{
+    authors : AuthorDTO [];
 }
 
 //Need to configure the other interfaces
