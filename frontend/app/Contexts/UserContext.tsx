@@ -15,12 +15,17 @@ import {
 interface UserContextType {
   nick: string | null; //Nick can be a string or null if its not logged
   setNick: (nick: string | null) => void;
+  //Added the userId too, for collections
+  userId: number | null;
+  setUserId: (id: number | null) => void;
 }
 
 //Create the context with initial values
 const UserContext = createContext<UserContextType>({
   nick: null, //No user at the beggining (we are ussing sessions)
   setNick: () => {},
+  userId: null,
+  setUserId: () => {},
 });
 
 
@@ -33,16 +38,19 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
     //Local state to storage nick
   const [nick, setNick] = useState<string | null>(null);
+  const [userId,setUserId] = useState<number | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedNick = sessionStorage.getItem("nick");
+      const storedUserId = sessionStorage.getItem("userId");
       if (storedNick) setNick(storedNick);
+      if (storedUserId) setUserId(Number(storedUserId));
     }
   }, []);
 
   return (
-    <UserContext.Provider value={{ nick, setNick }}>
+    <UserContext.Provider value={{ nick, setNick,userId,setUserId }}>
       {children}
     </UserContext.Provider>
   );

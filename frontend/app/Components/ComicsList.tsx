@@ -16,7 +16,7 @@ const ComicsList: React.FC<ComicListProps> = ({comicsList}) => {
             <img
               src={comic.coverUrl}
               alt={comic.title}
-              className="w-full h-74 object-contain"
+              className="w-full h-74 object-contain mt-8"
             />
             <div className="p-4">
               <h3 className="text-xl font-semibold text-cyan-600 truncate">{comic.title}</h3>

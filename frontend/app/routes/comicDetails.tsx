@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
-import { getComicById } from "~/Services/functions";
+import { useUser } from "~/Contexts/UserContext";
+import { FaCheck } from "react-icons/fa";
+import {
+  addComicToCollection,
+  getComicById,
+  hasTheUserTheComic,
+  removeComicFromCollection,
+} from "~/Services/functions";
 import type { ComicDTO } from "~/Types/interfaces";
 
 const comicDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>(); //When we get params they always come in string, doesn't matter what
   const [comic, setComic] = useState<ComicDTO | null>(null);
+  const [addedToCollection, setAddedToCollection] = useState(false);
+  const { userId } = useUser();
 
   useEffect(() => {
     const fetchComicDetails = async () => {
@@ -15,6 +24,8 @@ const comicDetails: React.FC = () => {
           try {
             const fetchedComic = await getComicById(comicId);
             setComic(fetchedComic);
+            const hasIt = await hasTheUserTheComic(comicId, userId!);
+            setAddedToCollection(hasIt);
           } catch (error) {
             console.error("Error al obtener los detalles del cómic:", error);
           }
@@ -23,55 +34,106 @@ const comicDetails: React.FC = () => {
     };
 
     fetchComicDetails();
-  }, [id]); // For every time page reloads, in case we select another comic
+  }, [id, userId]); // For every time page reloads, in case we select another comic
 
   if (!comic) {
-    return <div>
-      <p className="text-center text-2xl">Cargando detalles del cómic...</p>
-      <p className="text-center mt-4">A veces necesitamos descansar...</p></div>;
+    return (
+      <div>
+        <p className="text-center text-2xl">Cargando detalles del cómic...</p>
+        <p className="text-center mt-4">A veces necesitamos descansar...</p>
+      </div>
+    );
   }
+
+  const handleAddToCollection = async () => {
+    try {
+      console.log("Número del id del usuario " + userId);
+      await addComicToCollection(comic.id, userId!); //! at end is like telling Typescript that's not going to be null or undefined
+      setAddedToCollection(true);
+    } catch (error) {
+      console.error("Error al añadir");
+    }
+  };
+
+  const handleRemoveFromCollection = async () => {
+    try {
+      await removeComicFromCollection(comic.id, userId!);
+      setAddedToCollection(false);
+    } catch (error) {
+      console.log("Error al eliminar");
+    }
+  };
 
   return (
     <div className="comic-details bg-gray-100 py-12">
-  <div className="container mx-auto px-4">
-    <div className="flex justify-center">
-      <div className="comic-card bg-white rounded-xl shadow-lg p-8 max-w-3xl w-full">
-        <h1 className="text-4xl font-bold text-cyan-600 mb-6">{comic.title}</h1>
-        <div className="flex justify-center mb-6">
-          <img
-            src={comic.coverUrl}
-            alt={comic.title}
-            className="rounded-lg shadow-lg"
-            width={500}
-            style={{ objectFit: "contain" }}
-          />
-        </div>
-        <p className="text-lg text-gray-700 mb-4">{comic.description}</p>
-        <div className="flex flex-col space-y-2">
-          <p className="text-lg text-gray-900 font-semibold">
-            <span className="text-gray-600">Precio:</span> {comic.price}€
-          </p>
-          <p className="text-lg text-gray-900 font-semibold">
-            <span className="text-gray-600">Fecha de lanzamiento:</span> {comic.launchDate}
-          </p>
-          <p className="text-lg text-gray-900 font-semibold">
-            <span className="text-gray-600">Páginas:</span> {comic.pageCount}
-          </p>
-          <p className="text-lg text-gray-900 font-semibold">
-          <span className="text-gray-600">Edita:</span> <Link to={`/publisherDetails/${comic.publisherDTO.id}`}> {comic.publisherDTO.name} </Link>
-          </p>
-          <p className="text-lg text-gray-900 font-semibold">
-            <span className="text-gray-600">Autor:</span> {comic.authorDTO.name} {comic.authorDTO.lastName}
-          </p>
-          <div className="flex justify-center">
-          <button className="bg-cyan-500 hover:bg-cyan-700 px-3 py-3 w-40 text-6xl text-white">+</button>
+      <div className="container mx-auto px-4">
+        <div className="flex justify-center">
+          <div className="comic-card bg-white rounded-xl shadow-lg p-8 max-w-3xl w-full">
+            <h1 className="text-4xl font-bold text-cyan-600 mb-6">
+              {comic.title}
+            </h1>
+            <div className="flex justify-center mb-6">
+              <img
+                src={comic.coverUrl}
+                alt={comic.title}
+                className="rounded-lg shadow-lg"
+                width={500}
+                style={{ objectFit: "contain" }}
+              />
+            </div>
+            <p className="text-lg text-gray-700 mb-4">{comic.description}</p>
+            <div className="flex flex-col space-y-2">
+              <p className="text-lg text-gray-900 font-semibold">
+                <span className="text-gray-600">Precio:</span> {comic.price}€
+              </p>
+              <p className="text-lg text-gray-900 font-semibold">
+                <span className="text-gray-600">Fecha de lanzamiento:</span>{" "}
+                {comic.launchDate}
+              </p>
+              <p className="text-lg text-gray-900 font-semibold">
+                <span className="text-gray-600">Páginas:</span>{" "}
+                {comic.pageCount}
+              </p>
+              <p className="text-lg text-gray-900 font-semibold">
+                <span className="text-gray-600">Edita:</span>{" "}
+                <Link to={`/publisherDetails/${comic.publisherDTO.id}`}>
+                  {" "}
+                  {comic.publisherDTO.name}{" "}
+                </Link>
+              </p>
+              <p className="text-lg text-gray-900 font-semibold">
+                <span className="text-gray-600">Autor:</span>{" "}
+                {comic.authorDTO.name} {comic.authorDTO.lastName}
+              </p>
+              <div className="flex justify-center">
+                {addedToCollection ? (
+                  <button
+                    onClick={handleRemoveFromCollection}
+                    className="relative group px-3 py-3 w-40 text-6xl text-white flex justify-center items-center rounded-xl bg-green-500 hover:bg-red-600 transition-all duration-200"
+                  >
+                    {/* To use FaCheck you need to install npm install react-icons} {*/}
+                    <FaCheck />
+                    <span className="absolute text-sm bg-black text-white rounded px-2 py-1 bottom-[-40px] hidden group-hover:block z-10">
+                      Remove
+                    </span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleAddToCollection}
+                    className="px-3 py-3 w-40 text-6xl text-white flex justify-center items-center rounded-xl bg-cyan-500 hover:bg-cyan-700 transition-all duration-200"
+                  >
+                    +
+                  </button>
+                )}
+              </div>
+              {/*Next thing to do, implement the reviews in the comic details}
+              <p>{comic.reviewDTO[0].reviewText}</p>
+              {*/}
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-
   );
 };
 
