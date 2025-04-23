@@ -8,6 +8,7 @@ public interface ServiceUser {
     UserDTO getUserById(int id);
     UserDTO createUser(User user);
     UserDTO updateUser(int id, User user);
+    UserDTO getCurrentUser();
     void deleteUser(int id);
     boolean validateUser(String nick,String password);
 

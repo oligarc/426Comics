@@ -2,10 +2,7 @@ package com._C._Comics.restController;
 
 import com._C._Comics.service.ServiceUserCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/collection")
@@ -18,8 +15,18 @@ public class UserCollectionRestController {
         this.serviceUserCollection=serviceUserCollection;
     }
 
-    @PostMapping("/add/{comicId}/{nick}")
-    public void addComic(@PathVariable int comicId,@PathVariable String nick){
-        serviceUserCollection.addComicToUserCollection(comicId,nick);
+    @PostMapping("/add/{comicId}/{userId}")
+    public void addComic(@PathVariable int comicId,@PathVariable int userId){
+        serviceUserCollection.addComicToUserCollection(comicId,userId);
+    }
+
+    @GetMapping("/has/{comicId}/{userId}")
+    public boolean hasComic(@PathVariable int comicId, @PathVariable int userId){
+        return serviceUserCollection.hasTheComic(comicId,userId);
+    }
+
+    @DeleteMapping("/delete/{comicId}/{userId}")
+    public void deleteComicFromCollection(@PathVariable int comicId, @PathVariable int userId){
+        serviceUserCollection.removeComicFromUserCollection(comicId,userId);
     }
 }

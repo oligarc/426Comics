@@ -21,6 +21,9 @@ public class JwtService {
     @Value("${jwt.secret.key}")
     private String secretKey;
 
+    @Value("${jwt.expiration-time}")
+    private long EXPIRATION_TIME;
+
     public String getToken(UserDetails user){
         return getToken(new HashMap<>(),user);
     }
@@ -31,7 +34,7 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() +(1000*60*24)))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

@@ -57,6 +57,12 @@ public class ServiceComicImpl implements ServiceComic {
     }
 
     @Override
+    public Page<ComicDTO> getComicsByAuthorName(Pageable pageable, String authorName, String authorLastName) {
+        Page<Comic> comicsAuthor = comicRepository.findByAuthorNameOrLastName(authorName,authorLastName,pageable);
+        return comicsAuthor.map(this::convertToComicDTO);
+    }
+
+    /*@Override
     public List<ComicDTO> getComicsByAuthorName(String authorName,String authorLastName) {
         if(authorLastName.isEmpty()){
             List<Comic> comics = comicRepository.findByAuthorNameOrLastName(authorName,null);
@@ -66,6 +72,8 @@ public class ServiceComicImpl implements ServiceComic {
             return comics.stream().map(this::convertToComicDTO).collect(Collectors.toList());
         }
     }
+
+     */
 
     @Override
     public List<ComicDTO> getComicsByPublisherName(String publisher) {

@@ -39,11 +39,11 @@ public class ComicRestController {
     }
 
     @GetMapping("/author/{authorName}") //Need to check it because it's not working properly
-    public List<ComicDTO> getComicsByAuthorName(@PathVariable String authorName) {
+    public Page<ComicDTO> getComicsByAuthorName(@PathVariable String authorName, Pageable pageable) {
         String[] parts = authorName.split(" ", 2);
         String name = parts[0];
         String lastname = (parts.length > 1) ? parts[1] : "";
-        return serviceComic.getComicsByAuthorName(name, lastname);
+        return serviceComic.getComicsByAuthorName(pageable,name, lastname);
     }
 
 

@@ -30,9 +30,15 @@ public class ServiceUserCollectionImpl implements ServiceUserCollection {
     }
 
     @Override
-    public void addComicToUserCollection(int comicId, String nick) {
+    public boolean hasTheComic(int comicId, int userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        return user.getUserCollections().stream().anyMatch(uc -> uc.getComic().getId() == comicId);
+    }
 
-        User user = userRepository.findByNick(nick);
+    @Override
+    public void addComicToUserCollection(int comicId, int userId) {
+
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         Comic comic = comicRepository.findById(comicId).orElseThrow(() -> new RuntimeException("Cómic no encontrado"));
 
         if (!userCollectionRepository.existsByUserAndComic(user, comic)) {
@@ -40,9 +46,18 @@ public class ServiceUserCollectionImpl implements ServiceUserCollection {
             userCollection.setUser(user);
             userCollection.setComic(comic);
             userCollection.setAddedIn(Instant.now());
-            userCollection.setState("Read");
+            userCollection.setState("To be read");
             userCollectionRepository.save(userCollection);
         }
+    }
+
+    @Override
+    public void removeComicFromUserCollection(int comicId, int userId) {
+
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        Comic comic = comicRepository.findById(comicId).orElseThrow(()-> new RuntimeException("Cómic no encontrado"));
+        UserCollection userCollection = userCollectionRepository.findByUserAndComic(user,comic).orElseThrow(() -> new RuntimeException("La relación no existe"));
+        userCollectionRepository.delete(userCollection);
     }
 
 

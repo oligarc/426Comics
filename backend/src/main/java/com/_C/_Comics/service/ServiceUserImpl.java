@@ -3,6 +3,8 @@ package com._C._Comics.service;
 import com._C._Comics.dto.UserDTO;
 import com._C._Comics.models.User;
 import com._C._Comics.repository.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +44,19 @@ public class ServiceUserImpl implements ServiceUser {
 
         User updatedUser = userRepository.save(existingUser);
         return convertToUserDTO(updatedUser);
+    }
+
+    @Override
+    public UserDTO getCurrentUser() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String nick = userDetails.getUsername();
+
+        User user = userRepository.findByNick(nick);
+        if(user == null){
+            throw new RuntimeException("Usuario no encontrado");
+        }
+
+        return new UserDTO(user.getId(),user.getNick());
     }
 
     @Override

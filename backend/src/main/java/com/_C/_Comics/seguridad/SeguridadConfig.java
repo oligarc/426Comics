@@ -110,7 +110,9 @@ public class SeguridadConfig {
                                 "/api/publishers/town/{town}",
                                 "/api/reviews/id/{comicId}",
                                 "/api/reviews/name/{comicName}",
-                                "api/auth/**"
+                                "api/auth/**",
+                                "api/users/me",
+                                "api/collection/has/{comicId}/{userId}"
                                 )
                         .authenticated()
 
@@ -121,7 +123,10 @@ public class SeguridadConfig {
                         .requestMatchers(HttpMethod.POST,
                                 "/api/prueba/saludo").authenticated()
                         .requestMatchers(HttpMethod.POST,
-                                "/api/collection/add/{comicId}/{nick}").authenticated()
+                                "/api/collection/add/{comicId}/{userId}").authenticated()
+
+                        .requestMatchers(HttpMethod.DELETE,
+                                "/api/collection/delete/{comicId}/{userId}").authenticated()
 
 
                         /*.requestMatchers(HttpMethod.POST,

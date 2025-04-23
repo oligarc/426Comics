@@ -9,10 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "user", schema = "comics_db")
@@ -53,10 +50,26 @@ public class User implements UserDetails {
     private Instant updatedAt;
 
     @OneToMany(mappedBy = "user")
-    private Set<Review> reviews = new LinkedHashSet<>();
+    private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private Set<UserCollection> userCollections = new LinkedHashSet<>();
+    private List<UserCollection> userCollections = new ArrayList<>();
+
+    public List<UserCollection> getUserCollections() {
+        return userCollections;
+    }
+
+    public void setUserCollections(List<UserCollection> userCollections) {
+        this.userCollections = userCollections;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
 
     public User(){
 
@@ -171,22 +184,6 @@ public class User implements UserDetails {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Set<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(Set<Review> reviews) {
-        this.reviews = reviews;
-    }
-
-    public Set<UserCollection> getUserCollections() {
-        return userCollections;
-    }
-
-    public void setUserCollections(Set<UserCollection> userCollections) {
-        this.userCollections = userCollections;
     }
 
 }

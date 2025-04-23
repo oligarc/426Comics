@@ -12,7 +12,7 @@ public interface ServiceComic {
     public Page<ComicDTO> getAllComics(Pageable pageable);
     public ComicDTO getComicByID(int id);
     public List<ComicDTO> getComicsByName(String title);
-    public List<ComicDTO> getComicsByAuthorName(String authorName,String authorLastName);
+    public Page<ComicDTO> getComicsByAuthorName(Pageable pageable,String authorName,String authorLastName);
     public List<ComicDTO> getComicsByPublisherName(String publisher);
     public Page<ComicDTO> getComicsByPublisherId(Pageable pageable, int publisherId);
     public ComicDTO getComicByISBN(String ISBN);

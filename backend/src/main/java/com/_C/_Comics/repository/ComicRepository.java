@@ -19,7 +19,7 @@ public interface ComicRepository extends JpaRepository<Comic,Integer> {
     @Query("SELECT c FROM Comic c WHERE " +
             "(LOWER(c.author.name) LIKE LOWER(CONCAT('%', :name, '%')) OR :name IS NULL) " +
             "AND (LOWER(c.author.lastName) LIKE LOWER(CONCAT('%', :lastname, '%')) OR :lastname IS NULL)")
-    List<Comic> findByAuthorNameOrLastName(@Param("name") String name, @Param("lastname") String lastname);
+    Page<Comic> findByAuthorNameOrLastName(@Param("name") String name, @Param("lastname") String lastname,Pageable pageable);
 
     @Query("SELECT c FROM Comic c where LOWER(c.publisher.name) LIKE LOWER(CONCAT('%', :publisherName , '%')) ")
     List<Comic> findByPublisherName(@Param("publisherName") String publisherName);

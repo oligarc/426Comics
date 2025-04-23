@@ -26,6 +26,12 @@ public class UserRestController {
         return ResponseEntity.ok(userDTO);
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<UserDTO> getCurrentUser(){
+        UserDTO userDTO = serviceUser.getCurrentUser();
+        return ResponseEntity.ok(userDTO);
+    }
+
     @PostMapping
     public ResponseEntity<UserDTO> createUser(@RequestBody User user) {
         UserDTO userDTO = serviceUser.createUser(user);
