@@ -10,4 +10,5 @@ public interface ServiceReview {
     public List<ReviewDTO> getReviewsByComicName(String name);
     public void saveReview(Review review);
     public void updateReview(Review review,int reviewId);
+    public void deleteReview(int reviewId);
 }

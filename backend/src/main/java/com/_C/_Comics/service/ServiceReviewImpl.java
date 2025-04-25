@@ -60,6 +60,12 @@ public class ServiceReviewImpl implements ServiceReview{
          reviewRepository.save(existingReview);
     }
 
+    @Override
+    public void deleteReview(int reviewId) {
+        Review existingReview = reviewRepository.findById(reviewId).orElseThrow(() -> new RuntimeException("No review with that id"));
+        reviewRepository.delete(existingReview);
+    }
+
     private ReviewDTO convertToReviewDTO(Review review){
         int userId = review.getUser().getId();
         UserDTO userDTO =  serviceUser.getUserById(userId);

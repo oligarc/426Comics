@@ -124,9 +124,17 @@ public class SeguridadConfig {
                                 "/api/prueba/saludo").authenticated()
                         .requestMatchers(HttpMethod.POST,
                                 "/api/collection/add/{comicId}/{userId}").authenticated()
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/reviews/").authenticated()
+
+                        .requestMatchers(HttpMethod.PUT,
+                                "api/reviews/update/{id}").authenticated()
 
                         .requestMatchers(HttpMethod.DELETE,
                                 "/api/collection/delete/{comicId}/{userId}").authenticated()
+
+                        .requestMatchers(HttpMethod.DELETE,
+                                "/api/reviews/delete/{id}").authenticated()
 
 
                         /*.requestMatchers(HttpMethod.POST,
