@@ -368,3 +368,108 @@ export const getAllAuthors = async (
 };
 
 /* API AUTHOR FUNCTIONS */
+
+/*API REVIEWS FUNCTIONS */
+
+
+export const postReview = async (comicId: number, rating: number, text: string) => {
+  try {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      throw new Error("Token de autenticación no encontrado.");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/reviews/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        rating,
+        reviewText : text,
+        comic: {
+          id: comicId
+        }
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Error al guardar la reseña: ${errorData.message}`);
+    }
+    console.log("Reseña enviada con éxito.");
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error en la petición:", error);
+    throw new Error("Hubo un problema al enviar la reseña.");
+  }
+};
+
+
+export const updateReview = async (reviewId:number, rating:number,text:string) => {
+  try {
+
+    const token = sessionStorage.getItem("token");
+    if(!token){
+      throw new Error("Token no encontrado");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/reviews/update/${reviewId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        rating,
+        reviewText : text,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Error al actualizar la reseña: ${errorData.message}`);
+    }
+    console.log("Reseña actualizada con éxito.");
+
+
+  } catch (error) {
+    console.error("Error en la petición", error);
+    throw new Error("Hubo un problema al actualizar la reseña");
+  }
+}
+
+export const deleteReview = async (reviewId: number) => {
+  try {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      throw new Error("Token de autenticación no encontrado.");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/reviews/delete/${reviewId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Error al eliminar la reseña: ${errorData.message || response.statusText}`);
+    }
+
+    console.log("Reseña eliminada correctamente.");
+
+  } catch (error) {
+    console.error("Error en la petición:", error);
+    throw new Error("Error al eliminar la reseña.");
+  }
+};
+
+/*API REVIEWS FUNCTIONS */
+
+
+

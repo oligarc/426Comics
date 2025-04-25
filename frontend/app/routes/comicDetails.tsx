@@ -6,9 +6,12 @@ import {
   addComicToCollection,
   getComicById,
   hasTheUserTheComic,
+  postReview,
   removeComicFromCollection,
 } from "~/Services/functions";
 import type { ComicDTO } from "~/Types/interfaces";
+import Reviews from "~/Components/Reviews";
+import ReviewPost from "~/Components/ReviewPost";
 
 const comicDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>(); //When we get params they always come in string, doesn't matter what
@@ -64,6 +67,22 @@ const comicDetails: React.FC = () => {
     }
   };
 
+  const handleSubmitReview = async (rating: number, text: string) => {
+    try {
+      if (!userId || !comic.id) {
+        console.error("userId o comic.id son nulos");
+        return;
+      }
+
+      await postReview(comic.id, rating, text);
+      const updatedComic = await getComicById(comic.id);
+      setComic(updatedComic);
+      console.log("Reseña enviada y comic actualizado.");
+    } catch (error) {
+      console.error("Error al enviar reseña:", error);
+    }
+  };
+
   return (
     <div className="comic-details bg-gray-100 py-12">
       <div className="container mx-auto px-4">
@@ -105,30 +124,40 @@ const comicDetails: React.FC = () => {
                 <span className="text-gray-600">Autor:</span>{" "}
                 {comic.authorDTO.name} {comic.authorDTO.lastName}
               </p>
-              <div className="flex justify-center">
-                {addedToCollection ? (
-                  <button
-                    onClick={handleRemoveFromCollection}
-                    className="relative group px-3 py-3 w-40 text-6xl text-white flex justify-center items-center rounded-xl bg-green-500 hover:bg-red-600 transition-all duration-200"
-                  >
-                    {/* To use FaCheck you need to install npm install react-icons} {*/}
-                    <FaCheck />
-                    <span className="absolute text-sm bg-black text-white rounded px-2 py-1 bottom-[-40px] hidden group-hover:block z-10">
-                      Remove
-                    </span>
-                  </button>
-                ) : (
-                  <button
-                    onClick={handleAddToCollection}
-                    className="px-3 py-3 w-40 text-6xl text-white flex justify-center items-center rounded-xl bg-cyan-500 hover:bg-cyan-700 transition-all duration-200"
-                  >
-                    +
-                  </button>
-                )}
+              {addedToCollection ? (
+                <>
+                  <div className="flex justify-center">
+                    <button
+                      onClick={handleRemoveFromCollection}
+                      className="relative group px-3 py-3 w-40 text-6xl text-white flex justify-center items-center rounded-xl bg-green-500 hover:bg-red-600 transition-all duration-200"
+                    >
+                      {/* To use FaCheck you need to install npm install react-icons} {*/}
+                      <FaCheck />
+                      <span className="absolute text-sm bg-black text-white rounded px-2 py-1 bottom-[-40px] hidden group-hover:block z-10">
+                        Remove
+                      </span>
+                    </button>
+                  </div>
+                  <ReviewPost
+                    onSubmitReview={handleSubmitReview}
+                  />
+                </>
+              ) : (
+                <>
+                  <div className="flex justify-center">
+                    <button
+                      onClick={handleAddToCollection}
+                      className="px-3 py-3 w-40 text-6xl text-white flex justify-center items-center rounded-xl bg-cyan-500 hover:bg-cyan-700 transition-all duration-200"
+                    >
+                      +
+                    </button>
+                  </div>
+                </>
+              )}
+
+              <div className="mt-6">
+                <Reviews reviews={comic.reviewDTO} />
               </div>
-              {/*Next thing to do, implement the reviews in the comic details}
-              <p>{comic.reviewDTO[0].reviewText}</p>
-              {*/}
             </div>
           </div>
         </div>

@@ -23,7 +23,7 @@ export interface ComicDTO{
     collectionVolume:number,
     authorDTO:AuthorDTO,
     publisherDTO:PublisherDTO,
-    reviewDTO:any[],
+    reviewDTO:ReviewDTO[],
     collection:boolean
 }
 
@@ -59,5 +59,27 @@ export interface ComicListProps{
 export interface AuthorListProps{
     authors : AuthorDTO [];
 }
+
+export interface ReviewDTO{
+    id:number,
+    rating:number,
+    reviewText:string,
+    userDTO: UserDTO,
+    reviewedAt:string,
+    lastUpdatedAt:string
+}
+
+export interface UserDTO{
+    id:number,
+    nick:string
+}
+
+export interface ReviewProps{
+    reviews: ReviewDTO[]
+}
+
+export interface ReviewPostProps {
+    onSubmitReview: (rating: number, text: string) => void;
+  }
 
 //Need to configure the other interfaces
