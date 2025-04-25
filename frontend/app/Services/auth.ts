@@ -37,5 +37,26 @@ if(!response.ok){
 const data = await response.json();
 return data.token;
 
-
 }
+
+export const getCurrentUser = async () => { //Gonna return an id and nick of the user but only needed the id
+  try {
+    const token = sessionStorage.getItem("token");
+    const response = await fetch(`${API_BASE_URL}/api/users/me`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("No se pudo obtener el usuario");
+    }
+
+    const user = await response.json();
+    console.log("Usuario actual:", user);
+    return user;
+  } catch (error) {
+    console.error("Error obteniendo el usuario:", error);
+  }
+};

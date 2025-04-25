@@ -1,25 +1,14 @@
-import ComicsList from "~/Components/ComicsList";
-import type { Route } from "./+types/home";
-import InputSearch from "~/Components/InputSearch";
 import { useEffect, useState } from "react";
-import type { Page, ComicDTO } from "~/Types/interfaces";
-import { getAllComics } from "~/Services/functions";
+import { useParams } from "react-router";
+import ComicsList from "~/Components/ComicsList";
+import { getComicsByAuthorName } from "~/Services/functions";
+import type { ComicDTO, Page } from "~/Types/interfaces";
 
-export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "426Comics" },
-    { name: "description", content: "Batman's Coming..." },
-  ];
-}
-
-export default function Home() {
-
+function authorComics() {
+  const { authorName } = useParams<{ authorName: string }>();
   const [comics, setComics] = useState<Page<ComicDTO>>({
     content: [],
-    pageable: {
-      pageNumber: 0,
-      pageSize: 12,
-    },
+    pageable: { pageNumber: 0, pageSize: 3 },
     totalElements: 0,
     totalPages: 0,
     last: true,
@@ -29,13 +18,22 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState<number>(0);
 
   useEffect(() => {
-    const fetchComics = async () => {
-      const data = await getAllComics(currentPage);
-      setComics(data);
+    const fetchComicsByAuthorName = async () => {
+      try {
+        if (authorName) {
+          const fetchedComics = await getComicsByAuthorName(
+            authorName,
+            currentPage,
+            8
+          );
+          setComics(fetchedComics);
+        }
+      } catch (error) {
+        console.error("Error con los cómics de los autores");
+      }
     };
-
-    fetchComics();
-  }, [currentPage]);
+    fetchComicsByAuthorName();
+  }, [authorName, currentPage]);
 
   const goToNextPage = () => {
     if (comics.pageable.pageNumber < comics.totalPages - 1) {
@@ -48,12 +46,10 @@ export default function Home() {
       setCurrentPage(comics.pageable.pageNumber - 1);
     }
   };
-  return(
-    <div className="home-container bg-gray-50 py-16">
-      <h1 className="text-center text-4xl text-cyan-500 py-10">¡Bienvenido a 426 Cómics!</h1>
-      <h2 className="text-center text-2xl mt-6">¿Qué mejor que empezar con unos buenos cómics?</h2>
-      <InputSearch />
-      <ComicsList comicsList={comics?.content || []} />
+
+  return (
+    <>
+      <ComicsList comicsList={comics.content}></ComicsList>
 
       <div className="pagination-controls text-center py-4">
         <button
@@ -63,7 +59,9 @@ export default function Home() {
         >
           Anterior
         </button>
-        <span className="px-4">{`Página ${comics.pageable.pageNumber + 1} de ${comics.totalPages}`}</span>
+        <span className="px-4">{`Página ${comics.pageable.pageNumber + 1} de ${
+          comics.totalPages
+        }`}</span>
         <button
           onClick={goToNextPage}
           disabled={comics.pageable.pageNumber === comics.totalPages - 1}
@@ -72,6 +70,8 @@ export default function Home() {
           Siguiente
         </button>
       </div>
-    </div>
-  )
+    </>
+  );
 }
+
+export default authorComics;

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
 import { useUser } from "~/Contexts/UserContext";
-import { loginUser } from "~/Services/auth";
+import { getCurrentUser, loginUser } from "~/Services/auth";
+
 
 function Login() {
   const [nick, setNick] = useState("");
   const [password, setPassword] = useState("");
   const [loginSuccess, setLoginSuccess] = useState(false);
-  const {setNick:setNickContext} = useUser(); //Getting the function setNick from useUser. Note that is gonna be named different because of the first state to get the nick in the form
+  const {setNick:setNickContext, setUserId} = useUser(); //Getting the function setNick from useUser. Note that is gonna be named different because of the first state to get the nick in the form
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,7 +16,12 @@ function Login() {
       const token = await loginUser(nick, password);
       sessionStorage.setItem("token", token);
       sessionStorage.setItem("nick", nick);
-      setNickContext(nick); //Updating the nick in the global context
+
+      const user = await getCurrentUser(); //Get the currentUser (nick and id but only needed the id)
+      setNickContext(user.nick);
+      setUserId(user.id); //Setting it so we can obtain it with sessionStorage
+
+      //setNickContext(nick); //Updating the nick in the global context
       setLoginSuccess(true);
     } catch (err) {
       alert("Usuario o contraseña incorrectos");
