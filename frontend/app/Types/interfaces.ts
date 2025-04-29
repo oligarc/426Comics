@@ -80,6 +80,8 @@ export interface ReviewProps{
 
 export interface ReviewPostProps {
     onSubmitReview: (rating: number, text: string) => void;
+    initialRating?: number;
+    initialReviewText?: string;
   }
 
 //Need to configure the other interfaces

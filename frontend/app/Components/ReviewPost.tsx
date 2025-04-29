@@ -2,11 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import type { ReviewDTO, ReviewPostProps } from '~/Types/interfaces';
 
-function ReviewPost({onSubmitReview}: ReviewPostProps) {
+function ReviewPost({onSubmitReview, initialRating = 0,
+  initialReviewText = "",}: ReviewPostProps) {
 
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(initialRating);
   const [hover, setHover] = useState(0);
-  const [reviewText, setReviewText] = useState("");
+  const [reviewText, setReviewText] = useState(initialReviewText);
+
+  useEffect(() => {
+    setRating(initialRating);
+    setReviewText(initialReviewText);
+  }, [initialRating, initialReviewText]);
 
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -20,7 +26,8 @@ function ReviewPost({onSubmitReview}: ReviewPostProps) {
 
   return (
     <div className=" mt-8 p-4 rounded">
-      <h2 className="text-2xl text-center mb-4 text-cyan-600 font-bold">Añade tu reseña</h2>
+      {initialReviewText ? <h2 className="text-2xl text-center mb-4 text-cyan-600 font-bold">Actualiza tu reseña</h2> : <h2 className="text-2xl text-center mb-4 text-cyan-600 font-bold">Añade tu reseña</h2>}
+      
       <form onSubmit={handleSubmit}>
         <div className="flex justify-center mb-4">
           {[1, 2, 3, 4, 5].map((star) => (
@@ -55,7 +62,7 @@ function ReviewPost({onSubmitReview}: ReviewPostProps) {
             type="submit"
             className="bg-cyan-600 text-white px-6 py-2 rounded hover:bg-cyan-700 transition"
           >
-            Enviar reseña
+            {initialReviewText ? 'Actualizar' : 'Enviar'}
           </button>
         </div>
       </form>

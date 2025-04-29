@@ -273,6 +273,43 @@ export const hasTheUserTheComic = async (comicId: number, userId: number) => {
   }
 };
 
+export const comicsFromUser = async (userId : number,page: number = 0,
+  size: number = 12) : Promise<Page<ComicDTO>> => {
+
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await fetch(
+        `${API_BASE_URL}/api/collection/get/${userId}?page=${page}&size=${size}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+            //"Authorization": "Basic " + btoa(`${NICK}:${PASSWORD}`),
+          },
+        }
+      );
+  
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: Could't get the comics`);
+      }
+  
+      const comics = await response.json();
+      return comics;
+    } catch (error) {
+      console.error(error);
+      return {
+        content: [],
+        pageable: { pageNumber: 0, pageSize: 12 },
+        totalElements: 0,
+        totalPages: 0,
+        last: true,
+        first: true,
+      };
+    }
+
+  }
+
 /* API USERCOLLECTION FUNCTIONS */
 
 /* API PUBLISHER FUNCTIONS */

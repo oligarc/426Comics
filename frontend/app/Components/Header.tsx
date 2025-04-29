@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Logo from './Logo'
 import { Link } from 'react-router'
 import { useUser } from '~/Contexts/UserContext';
-import PersonalLibrary from './PersonalLibrary';
 
 function Header() {
 
