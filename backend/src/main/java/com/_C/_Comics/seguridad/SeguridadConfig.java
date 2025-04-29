@@ -112,7 +112,8 @@ public class SeguridadConfig {
                                 "/api/reviews/name/{comicName}",
                                 "api/auth/**",
                                 "api/users/me",
-                                "api/collection/has/{comicId}/{userId}"
+                                "api/collection/has/{comicId}/{userId}",
+                                "api/collection/get/{userId}"
                                 )
                         .authenticated()
 
