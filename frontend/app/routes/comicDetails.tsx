@@ -17,6 +17,7 @@ const comicDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>(); //When we get params they always come in string, doesn't matter what
   const [comic, setComic] = useState<ComicDTO | null>(null);
   const [addedToCollection, setAddedToCollection] = useState(false);
+  const [hasReviewed, setHasReviewed] = useState(false);
   const { userId } = useUser();
 
   useEffect(() => {
@@ -29,6 +30,12 @@ const comicDetails: React.FC = () => {
             setComic(fetchedComic);
             const hasIt = await hasTheUserTheComic(comicId, userId!);
             setAddedToCollection(hasIt);
+
+            // Verificar si el usuario ya ha hecho una reseña
+            const userReview = fetchedComic.reviewDTO.find(
+              (review) => review.userDTO.id === userId
+            );
+            setHasReviewed(!!userReview); // true si ya hay reseña del usuario
           } catch (error) {
             console.error("Error al obtener los detalles del cómic:", error);
           }
@@ -77,6 +84,7 @@ const comicDetails: React.FC = () => {
       await postReview(comic.id, rating, text);
       const updatedComic = await getComicById(comic.id);
       setComic(updatedComic);
+      setHasReviewed(true);
       console.log("Reseña enviada y comic actualizado.");
     } catch (error) {
       console.error("Error al enviar reseña:", error);
@@ -138,9 +146,7 @@ const comicDetails: React.FC = () => {
                       </span>
                     </button>
                   </div>
-                  <ReviewPost
-                    onSubmitReview={handleSubmitReview}
-                  />
+                  {!hasReviewed && <ReviewPost onSubmitReview={handleSubmitReview} />}
                 </>
               ) : (
                 <>

@@ -7,36 +7,29 @@ import { Link } from "react-router";
 
 function Welcome() {
   return (
-    <div className="welcome-container px-8 bg-gray-50 py-6 min-h-screen">
-      <section className="section-infoInicial mt-10">
-        <h1 className="text-4xl text-center text-cyan-700">
+    <div className="welcome-container flex flex-col justify-center items-center bg-gray-50 min-h-screen px-8 py-6">
+      <section className="section-infoInicial text-center">
+        <h1 className="text-4xl text-cyan-700">
           ¿Cansado de no saber cómo organizar tus cómics?
         </h1>
         
-        <h2 className="text-4xl text-center mt-5 text-cyan-700">
-          ¡Bienvenido a{" "}
-          <span className="text-cyan-500 font-bold">426Comics</span>!
+        <h2 className="text-4xl mt-5 text-cyan-700">
+          ¡Bienvenido a <span className="text-cyan-500 font-bold">426Comics</span>!
         </h2>
       </section>
 
-      <section className="section-InicioRegistro mt-10">
-        <div>
-          <h1 className="text-2xl text-center">¿Te interesa? ¡Únete!</h1>
-          <div className="flex justify-center items-center mt-3">
-            <Link to="/register">
-              <button className="px-32 py-3 text-2xl bg-cyan-500 hover:bg-cyan-700 text-white cursor-pointer">
-                Regístrate
-              </button>
-            </Link>
-          </div>
-          <p className="text-center mt-4">Si ya tienes cuenta, <Link to="/login"><span className="text-cyan-500 underline">inicia sesión</span></Link></p>
+      <section className="section-InicioRegistro mt-10 text-center">
+        <h1 className="text-2xl">¿Te interesa? ¡Únete!</h1>
+        <div className="mt-3">
+          <Link to="/register">
+            <button className="px-32 py-3 text-2xl bg-cyan-500 hover:bg-cyan-700 text-white cursor-pointer">
+              Regístrate
+            </button>
+          </Link>
         </div>
-      </section>
-
-      {/* add the functions of the app later */}
-      
-      <section>
-
+        <p className="mt-4">
+          Si ya tienes cuenta, <Link to="/login"><span className="text-cyan-500 underline">inicia sesión</span></Link>
+        </p>
       </section>
     </div>
   );

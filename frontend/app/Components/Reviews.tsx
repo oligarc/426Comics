@@ -5,17 +5,11 @@ import { deleteReview, postReview, updateReview } from "~/Services/functions";
 import type { ReviewDTO } from "~/Types/interfaces";
 import ReviewPost from "./ReviewPost";
 
-function Reviews({
-  reviews,
-}: {
-  reviews: ReviewDTO[];
-}) {
+function Reviews({ reviews }: { reviews: ReviewDTO[] }) {
   const { userId } = useUser();
   const [reviewList, setReviewList] = useState(reviews);
   const [isEditReviewSelected, setIsEditReviewSelected] = useState(false);
-  const [editReview, setEditReview] = useState<ReviewDTO | null>(null); // Those are gonna be here for next edit function
-
-  
+  const [editReview, setEditReview] = useState<ReviewDTO | null>(null);
 
   const handleDeleteReview = async (reviewId: number) => {
     try {
@@ -28,14 +22,29 @@ function Reviews({
     }
   };
 
-  const handleEditReview = async () => {
-    return "to-do";
+  const handleEditReview = async (rating: number, text: string) => {
+    if (!editReview) return;
+
+    try {
+      await updateReview(editReview.id, rating, text);
+      setReviewList((prevReviews) =>
+        prevReviews.map((review) =>
+          review.id === editReview.id
+            ? { ...review, reviewText: text, rating }
+            : review
+        )
+      );
+      setIsEditReviewSelected(false); // Close the edit form
+      setEditReview(null);
+    } catch (error) {
+      console.error("Error al editar la reseña:", error);
+    }
   };
 
   return (
     <>
       <h2 className="text-4xl text-center text-cyan-500 mb-4">Reseñas</h2>
-      
+
       <div>
         {reviewList.length === 0 ? (
           <h2 className="text-center text-2xl">
@@ -82,7 +91,11 @@ function Reviews({
                         Editar reseña
                       </button>
                     ) : (
-                      <ReviewPost onSubmitReview={handleEditReview} />
+                      <ReviewPost
+                        onSubmitReview={handleEditReview}
+                        initialRating={review.rating}
+                        initialReviewText={review.reviewText}
+                      />
                     )}
 
                     <button
