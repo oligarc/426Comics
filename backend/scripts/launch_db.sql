@@ -10,7 +10,9 @@ USE comics_db;
 -- Drop tables for new launches/catching errors --
 -- Need to drop tables in an order because of FK --
 
-ALTER TABLE user DROP FOREIGN KEY user_ibfk_1;
+DROP TABLE IF EXISTS comentarios_lista;
+DROP TABLE IF EXISTS lista_comics;
+DROP TABLE IF EXISTS lista;
 DROP TABLE IF EXISTS review;
 DROP TABLE IF EXISTS user_collection;
 DROP TABLE IF EXISTS roles;
@@ -54,7 +56,7 @@ CREATE TABLE comic(
     stock INT,
     ISBN VARCHAR(25) NOT NULL UNIQUE,
     cover_url VARCHAR(255) NOT NULL,
-    description TEXT,
+    description TEXT, -- Those that are TEXT type, must be marked on SB as columnDefinition = "TEXT" . Otherwise Hibernate won't load them
     page_count INT,
     is_collection BOOLEAN DEFAULT FALSE,
     collection_volume INT,
@@ -113,6 +115,35 @@ CREATE TABLE user_collection(
     UNIQUE(user_id,comic_id)
 );
 
+-- New table for list, only basics
+CREATE TABLE lista (
+                        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                        titulo VARCHAR(100) NOT NULL,
+                        descripcion TEXT,
+                        privacidad ENUM('publica', 'privada') DEFAULT 'publica',
+                        user_id INT NOT NULL,
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Over here all comics put into one single list
+CREATE TABLE lista_comics (
+                              id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                              lista_id INT NOT NULL,
+                              comic_id INT NOT NULL,
+                              fecha_agregado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                              UNIQUE(lista_id, comic_id)
+);
+
+-- Comments for a specific list
+
+CREATE TABLE comentarios_lista (
+                                   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                   lista_id INT NOT NULL,
+                                   user_id INT NOT NULL,
+                                   contenido TEXT NOT NULL,
+                                   fecha_comentario TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 ------------------------------------------
 
@@ -154,6 +185,35 @@ ALTER TABLE user_collection
 ADD CONSTRAINT fk_user_collection_comic
     FOREIGN KEY (comic_id) REFERENCES comic(id)
     ON DELETE CASCADE;
+
+ALTER TABLE lista
+    ADD CONSTRAINT fk_listas_user
+        FOREIGN KEY (user_id) REFERENCES user(id)
+            ON DELETE CASCADE;
+
+-- Foreign key for lista on lista_comics
+ALTER TABLE lista_comics
+    ADD CONSTRAINT fk_lista_comics_lista
+        FOREIGN KEY (lista_id) REFERENCES lista(id)
+            ON DELETE CASCADE;
+
+ALTER TABLE lista_comics
+    ADD CONSTRAINT fk_lista_comics_comic
+        FOREIGN KEY (comic_id) REFERENCES comic(id)
+            ON DELETE CASCADE;
+
+-- Foreign keys for user on comentarios_lista
+ALTER TABLE comentarios_lista
+    ADD CONSTRAINT fk_comentarios_lista_user
+        FOREIGN KEY (user_id) REFERENCES user(id)
+            ON DELETE CASCADE;
+
+-- Foreign keys for lista on comentarios_lista
+
+ALTER TABLE comentarios_lista
+    ADD CONSTRAINT fk_comentarios_lista_lista
+        FOREIGN KEY (lista_id) REFERENCES lista(id)
+            ON DELETE CASCADE;
 
 ------------------------------------------
 
