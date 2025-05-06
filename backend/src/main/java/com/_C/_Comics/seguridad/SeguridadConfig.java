@@ -113,7 +113,14 @@ public class SeguridadConfig {
                                 "api/auth/**",
                                 "api/users/me",
                                 "api/collection/has/{comicId}/{userId}",
-                                "api/collection/get/{userId}"
+                                "api/collection/get/{userId}",
+                                "api/lista/all",
+                                "api/lista/id/{id}",
+                                "api/lista/userId/{userId}",
+                                "api/listaComic/",
+                                "/api/listaComic/listId/{id}",
+                                "/api/listaComic/comicId/{id}",
+                                "/api/comentarios/get/{listaId}"
                                 )
                         .authenticated()
 
@@ -127,6 +134,12 @@ public class SeguridadConfig {
                                 "/api/collection/add/{comicId}/{userId}").authenticated()
                         .requestMatchers(HttpMethod.POST,
                                 "/api/reviews/").authenticated()
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/lista/add").authenticated()
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/listaComic/add/{listId}/{comicId}").authenticated()
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/comentarios/add").authenticated()
 
                         .requestMatchers(HttpMethod.PUT,
                                 "api/reviews/update/{id}").authenticated()
@@ -136,6 +149,13 @@ public class SeguridadConfig {
 
                         .requestMatchers(HttpMethod.DELETE,
                                 "/api/reviews/delete/{id}").authenticated()
+                        .requestMatchers(HttpMethod.DELETE,
+                                "/api/lista/delete/{id}").authenticated()
+
+                        .requestMatchers(HttpMethod.DELETE,
+                                "/api/listaComic/delete/{listId}/{comicId}").authenticated()
+                        .requestMatchers(HttpMethod.DELETE,
+                                "/api/comentarios/delete/{comentarioId}/{listaId}").authenticated()
 
 
                         /*.requestMatchers(HttpMethod.POST,

@@ -10,6 +10,7 @@ USE comics_db;
 -- Drop tables for new launches/catching errors --
 -- Need to drop tables in an order because of FK --
 
+ALTER TABLE user DROP FOREIGN KEY user_ibfk_1;
 DROP TABLE IF EXISTS comentarios_lista;
 DROP TABLE IF EXISTS lista_comics;
 DROP TABLE IF EXISTS lista;
@@ -120,7 +121,7 @@ CREATE TABLE lista (
                         id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                         titulo VARCHAR(100) NOT NULL,
                         descripcion TEXT,
-                        privacidad ENUM('publica', 'privada') DEFAULT 'publica',
+                        privacidad VARCHAR(20) DEFAULT 'publica',
                         user_id INT NOT NULL,
                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -354,4 +355,31 @@ INSERT INTO user(name,last_name,email,nick,password,active,role_id) VALUES ('Oli
 INSERT INTO user(name,last_name,email,nick,password,active,role_id) VALUES ('Juan', 'Pérez', 'juan.perez@example.com', 'juanp', '$2a$12$roFcBOy06rKwyhZJE9sAj.aECBgpuOiKnJoEV6c5Gy.4Ic3Bjjht6', 1,2);
 
 INSERT INTO review(rating,review_text,user_id,comic_id) VALUES (5,'Batman es dios',1,3);
+
+INSERT INTO lista(titulo,descripcion,user_id) values ('Lecturas 2025 Óliver','Control de lo que voy leyendoe este 2025',1);
+INSERT INTO lista(titulo,descripcion,user_id) values ('Lecturas 2025 Juan','Let it goooo',2);
+
+INSERT INTO lista_comics(lista_id,comic_id) VALUES(1,1);
+INSERT INTO lista_comics(lista_id,comic_id) VALUES(1,12);
+INSERT INTO lista_comics(lista_id,comic_id) VALUES(1,16);
+INSERT INTO lista_comics(lista_id,comic_id) VALUES(1,4);
+INSERT INTO lista_comics(lista_id,comic_id) VALUES(1,25);
+
+INSERT INTO lista_comics(lista_id,comic_id) VALUES(2,14);
+INSERT INTO lista_comics(lista_id,comic_id) VALUES(2,2);
+INSERT INTO lista_comics(lista_id,comic_id) VALUES(2,18);
+INSERT INTO lista_comics(lista_id,comic_id) VALUES(2,44);
+INSERT INTO lista_comics(lista_id,comic_id) VALUES(2,25);
+
+INSERT INTO comentarios_lista (lista_id, user_id, contenido)
+VALUES (1, 2, 'Gran lista de cómics, gracias por compartir!');
+
+INSERT INTO comentarios_lista (lista_id, user_id, contenido)
+VALUES (1, 2, 'Me gustaría que añadieras Watchmen.');
+
+INSERT INTO comentarios_lista (lista_id, user_id, contenido)
+VALUES (2, 1, 'Buena selección para empezar en el mundillo.');
+
+INSERT INTO comentarios_lista (lista_id, user_id, contenido)
+VALUES (2, 2, 'Gracias!!');
 -- ----------------------------------------
