@@ -24,6 +24,11 @@ function Register(){
             sessionStorage.setItem("nick",nick);
             setNickContext(nick);
             setRegisterSuccess(true);
+            setName("");
+            setLastName("");
+            setEmail("");
+            SetNick("");
+            setPassword("");
 
         }catch(error){
             console.error(error);

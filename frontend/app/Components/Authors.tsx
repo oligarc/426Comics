@@ -4,7 +4,8 @@ import type { AuthorListProps } from "~/Types/interfaces";
 const Authors : React.FC<AuthorListProps> = ({authors}) => {
 
     return (
-        <div className="authors-container py-8 px-4">
+        <div className="authors-container bg-gray-50 py-8 px-4">
+          <h2 className='text-center text-3xl mb-6 text-cyan-700 font-bold'>Lista de Autores</h2>
           <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-6">
             {authors.map((author) => (
                 <>

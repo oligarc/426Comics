@@ -17,7 +17,7 @@ const Publishers : React.FC = () => {
 
     return(
 
-    <div className="publishers-container py-8 px-4">
+    <div className="publishers-container bg-gray-50 py-8 px-4">
       <h2 className='text-center text-3xl mb-6 text-cyan-700 font-bold'>Lista de Editoriales</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {publishers.map((publisher) => (

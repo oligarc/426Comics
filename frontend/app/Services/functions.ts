@@ -508,5 +508,68 @@ export const deleteReview = async (reviewId: number) => {
 
 /*API REVIEWS FUNCTIONS */
 
+/*API LIST AND COMMENTS FUNCTIONS */
+
+export const getAllLists = async () => {
+  try {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      throw new Error("Token de autenticación no encontrado.");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/lista/all`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Error al obtener las listas: ${errorData.message || response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+
+  } catch (error) {
+    console.error("Error en la petición:", error);
+    throw new Error("Error al obtener las listas.");
+  }
+};
+
+
+export const getComicListByListId = async (listId : number) => {
+  try {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      throw new Error("Token de autenticación no encontrado.");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/listaComic/listId/${listId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Error al obtener las listas: ${errorData.message || response.statusText}`);
+    }
+
+    const data = await response.json();  
+    return data;  
+
+  } catch (error) {
+    console.error("Error en la petición:", error);
+    throw new Error("Error al obtener las listas.");
+  }
+}
+
+/*API LIST AND COMMENTS FUNCTIONS */
+
 
 

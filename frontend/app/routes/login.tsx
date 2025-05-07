@@ -23,6 +23,8 @@ function Login() {
 
       //setNickContext(nick); //Updating the nick in the global context
       setLoginSuccess(true);
+      setNick("");
+      setPassword("");
     } catch (err) {
       alert("Usuario o contraseña incorrectos");
       console.error(err);

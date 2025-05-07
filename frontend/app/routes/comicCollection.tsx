@@ -44,7 +44,7 @@ function comicCollection() {
 
   return (
     <div>
-      <h2 className="text-6xl text-center text-cyan-600 font-bold">Tu biblioteca</h2>
+      <h2 className='text-center text-3xl mt-6 text-cyan-700 font-bold'>Tu Biblioteca</h2>
       <ComicsList comicsList={comics.content} />
       <div className="pagination-controls text-center py-4">
         <button

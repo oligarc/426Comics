@@ -84,4 +84,33 @@ export interface ReviewPostProps {
     initialReviewText?: string;
   }
 
+
+export interface ListDTO {
+    id: number;
+    titulo: string;
+    descripcion: string;
+    privacidad: string;
+    user: {
+      id: number;
+      nick: string;
+    };
+  }
+
+export interface ComicListResponse {
+    id: number;
+    lista: {
+      id: number;
+      titulo: string;
+      descripcion: string;
+      privacidad: string;
+      user: {
+        id: number;
+        nick: string;
+      };
+    };
+    comic: ComicDTO;
+  };
+  
+  
+
 //Need to configure the other interfaces
