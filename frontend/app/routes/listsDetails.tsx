@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import ComicsListForLists from "~/Components/ComicsListForLists";
-import { getComicListByListId } from "~/Services/functions";
-import type { ComicDTO, ComicListResponse } from "~/Types/interfaces";
+import Comments from "~/Components/Comments";
+import { getComicListByListId, getCommentsListByListId } from "~/Services/functions";
+import type { ComicDTO, ComicListResponse, SingleComment } from "~/Types/interfaces";
 
 
 
@@ -11,6 +12,7 @@ const ListDetails: React.FC = () => {
     const [comics, setComics] = useState<ComicDTO[]>([]);
     const [title,setTitle] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
+    const [comments,setComments] = useState<SingleComment[]>([]);
   
     useEffect(() => {
       const fetchComics = async () => {
@@ -18,7 +20,9 @@ const ListDetails: React.FC = () => {
           if (!id) return;
           const response: ComicListResponse[] = await getComicListByListId(Number(id));
           const title = response.length >0 ? response[0].lista.titulo : 'Sin título';
-          setTitle(title)
+          setTitle(title);
+          const comments = await getCommentsListByListId(Number(id));
+          setComments(comments);
           const comicsOnly = response.map((item) => item.comic);
           setComics(comicsOnly);
         } catch (error) {
@@ -43,7 +47,10 @@ const ListDetails: React.FC = () => {
         )}
   
         {comics.length > 0 ? (
+          <>
           <ComicsListForLists comicsList={comics} />
+          <Comments comments={comments} ></Comments>
+          </>
         ) : (
           <p className="text-center text-gray-400 text-lg">
             Esta lista aún no tiene cómics :(

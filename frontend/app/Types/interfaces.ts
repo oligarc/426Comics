@@ -110,7 +110,28 @@ export interface ComicListResponse {
     };
     comic: ComicDTO;
   };
-  
-  
 
-//Need to configure the other interfaces
+  export interface SingleComment{
+    id:number;
+    lista: {
+      id: number;
+      titulo: string;
+      descripcion: string;
+      privacidad: string;
+      user: {
+        id: number;
+        nick: string;
+      };
+    };
+    user: {
+      id: number;
+      nick: string;
+    };
+    contenido:string,
+    fechaComentario:string;
+  }
+
+  export interface CommentsProps{
+    comments: SingleComment[];
+  }
+  

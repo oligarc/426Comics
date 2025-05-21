@@ -4,6 +4,7 @@ export default [
     layout("layouts/index.tsx",[
         index("routes/welcome.tsx"),
         route("home","routes/home.tsx"),
+        route("about","routes/about.tsx"),
         route("login","routes/login.tsx"),
         route("collection","routes/comicCollection.tsx"),
         route("register","routes/register.tsx"),
