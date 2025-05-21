@@ -28,7 +28,7 @@ public class ServiceComentariosListaImpl implements ServiceComentariosLista{
 
     @Override
     public List<ComentariosListaDTO> getComentariosByListaId(int listaId) {
-        List<ComentariosLista> comentarios = comentariosListaRepository.findAll();
+        List<ComentariosLista> comentarios = comentariosListaRepository.findByLista_Id(listaId);
         return comentarios.stream().map(ComentariosMapper::convertToComentarioDTO).toList();
     }
 
