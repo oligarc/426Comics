@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
-import type { ReviewDTO, ReviewPostProps } from '~/Types/interfaces';
+import type {ReviewPostProps } from '~/Types/interfaces';
 
 function ReviewPost({onSubmitReview, initialRating = 0,
   initialReviewText = "",}: ReviewPostProps) {

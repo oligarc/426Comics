@@ -1,3 +1,4 @@
+import { useUser } from "~/Contexts/UserContext";
 import type {
   AuthorDTO,
   ComicDTO,
@@ -646,6 +647,58 @@ export const hasTheListTheComic = async (listId: number, comicId: number) => {
     console.error(error);
   }
 };
+
+export const postComment = async (listId: number, userId: number, contenido: string) => {
+  try {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      throw new Error("Token de autenticación no encontrado.");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/comentarios/add`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        contenido,
+        lista: { id: listId },
+        user: { id: userId },
+      }),
+    });
+
+    if (!response.ok) {
+      let errorMessage = "Error al guardar el comentario";
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorMessage;
+      } catch {
+      }
+      throw new Error(errorMessage);
+    }
+
+    // Back 
+    try {
+      const newComment = await response.json();
+      return newComment;
+    } catch {
+      // Back doesn't give back the comment so I made a temporary comment
+      return {
+        id: Date.now(),
+        contenido,
+        user: { nick: "placeholder" }, // Then it's gonna be setted in comments.tsx
+        fechaComentario: new Date().toISOString(),
+        lista: { id: listId }
+      };
+    }
+  } catch (error) {
+    console.error("Error en la petición:", error);
+    throw new Error("Hubo un problema al enviar el comentario.");
+  }
+};
+
+
 
 /*API LIST AND COMMENTS FUNCTIONS */
 

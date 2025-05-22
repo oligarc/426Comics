@@ -9,33 +9,38 @@ import {
   postReview,
   removeComicFromCollection,
 } from "~/Services/functions";
-import type { ComicDTO } from "~/Types/interfaces";
+import type { ComicDTO, ReviewDTO } from "~/Types/interfaces";
 import Reviews from "~/Components/Reviews";
 import ReviewPost from "~/Components/ReviewPost";
 
-const comicDetails: React.FC = () => {
-  const { id } = useParams<{ id: string }>(); //When we get params they always come in string, doesn't matter what
+const ComicDetails: React.FC = () => { // Renamed for convention
+  const { id } = useParams<{ id: string }>();
   const [comic, setComic] = useState<ComicDTO | null>(null);
+  const [reviews, setReviews] = useState<ReviewDTO[]>([]);
   const [addedToCollection, setAddedToCollection] = useState(false);
   const [hasReviewed, setHasReviewed] = useState(false);
+  const [message, setMessage] = useState<{
+    text: string;
+    type: "success" | "error";
+  } | null>(null);
   const { userId } = useUser();
 
   useEffect(() => {
     const fetchComicDetails = async () => {
       if (id) {
-        const comicId = Number(id); // Convert id to a number
+        const comicId = Number(id);
         if (!isNaN(comicId)) {
           try {
             const fetchedComic = await getComicById(comicId);
             setComic(fetchedComic);
+            setReviews(fetchedComic.reviewDTO);
             const hasIt = await hasTheUserTheComic(comicId, userId!);
             setAddedToCollection(hasIt);
 
-            // Verificar si el usuario ya ha hecho una reseña
             const userReview = fetchedComic.reviewDTO.find(
               (review) => review.userDTO.id === userId
             );
-            setHasReviewed(!!userReview); // true si ya hay reseña del usuario
+            setHasReviewed(!!userReview);
           } catch (error) {
             console.error("Error al obtener los detalles del cómic:", error);
           }
@@ -44,7 +49,7 @@ const comicDetails: React.FC = () => {
     };
 
     fetchComicDetails();
-  }, [id, userId]); // For every time page reloads, in case we select another comic
+  }, [id, userId]);
 
   if (!comic) {
     return (
@@ -55,11 +60,20 @@ const comicDetails: React.FC = () => {
     );
   }
 
+  const showTemporaryMessage = (
+    text: string,
+    type: "success" | "error" = "success"
+  ) => {
+    setMessage({ text, type });
+    setTimeout(() => setMessage(null), 3000);
+  };
+
   const handleAddToCollection = async () => {
     try {
       console.log("Número del id del usuario " + userId);
-      await addComicToCollection(comic.id, userId!); //! at end is like telling Typescript that's not going to be null or undefined
+      await addComicToCollection(comic.id, userId!);
       setAddedToCollection(true);
+      showTemporaryMessage("¡Cómic añadido correctamente!", "success");
     } catch (error) {
       console.error("Error al añadir");
     }
@@ -69,6 +83,7 @@ const comicDetails: React.FC = () => {
     try {
       await removeComicFromCollection(comic.id, userId!);
       setAddedToCollection(false);
+      showTemporaryMessage("Cómic eliminado correctamente.", "error");
     } catch (error) {
       console.log("Error al eliminar");
     }
@@ -78,16 +93,25 @@ const comicDetails: React.FC = () => {
     try {
       if (!userId || !comic.id) {
         console.error("userId o comic.id son nulos");
+        showTemporaryMessage("Error: Datos de usuario o cómic no disponibles.", "error");
         return;
       }
-
-      await postReview(comic.id, rating, text);
-      const updatedComic = await getComicById(comic.id);
-      setComic(updatedComic);
+  
+      console.log("Enviando reseña para el cómic ID:", comic.id, "Usuario ID:", userId);
+      const newReview = await postReview(comic.id, rating, text);
+      console.log("Reseña enviada con éxito. Reseña recibida del backend:", newReview);
+      setReviews((prevReviews) => {
+        //This creates a new array that contains all previous reviews + the new one
+        return [...prevReviews, newReview];
+      });
+  
       setHasReviewed(true);
-      console.log("Reseña enviada y comic actualizado.");
+      showTemporaryMessage("¡Reseña enviada correctamente!", "success"); 
+      console.log("Reseña enviada y estado de reviews actualizado.");
+  
     } catch (error) {
       console.error("Error al enviar reseña:", error);
+      showTemporaryMessage("Error al enviar la reseña.", "error");
     }
   };
 
@@ -139,14 +163,15 @@ const comicDetails: React.FC = () => {
                       onClick={handleRemoveFromCollection}
                       className="relative group px-3 py-3 w-40 text-6xl text-white flex justify-center items-center rounded-xl bg-green-500 hover:bg-red-600 transition-all duration-200"
                     >
-                      {/* To use FaCheck you need to install npm install react-icons} {*/}
                       <FaCheck />
                       <span className="absolute text-sm bg-black text-white rounded px-2 py-1 bottom-[-40px] hidden group-hover:block z-10">
                         Remove
                       </span>
                     </button>
                   </div>
-                  {!hasReviewed && <ReviewPost onSubmitReview={handleSubmitReview} />}
+                  {!hasReviewed && (
+                    <ReviewPost onSubmitReview={handleSubmitReview} />
+                  )}
                 </>
               ) : (
                 <>
@@ -161,8 +186,20 @@ const comicDetails: React.FC = () => {
                 </>
               )}
 
+              {message && (
+                <p
+                  className={`text-center font-semibold mt-4 ${
+                    message.type === "success"
+                      ? "text-green-600"
+                      : "text-red-600"
+                  }`}
+                >
+                  {message.text}
+                </p>
+              )}
+
               <div className="mt-6">
-                <Reviews reviews={comic.reviewDTO} />
+                <Reviews reviews={reviews} key={reviews.length} />
               </div>
             </div>
           </div>
@@ -172,4 +209,4 @@ const comicDetails: React.FC = () => {
   );
 };
 
-export default comicDetails;
+export default ComicDetails;

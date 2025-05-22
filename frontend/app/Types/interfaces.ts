@@ -93,6 +93,10 @@ export interface ReviewPostProps {
     initialReviewText?: string;
   }
 
+export interface CommentPostProps{
+  onSubmitReview: (contenido: string) => void;
+}
+
 
 export interface ListDTO {
     id: number;

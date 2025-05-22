@@ -82,7 +82,7 @@ const ListDetails: React.FC = () => {
             <>
             <div className="flex justify-center">
             <button onClick={handleEditList}
-            className="px-20 py-6 text-2xl text-white bg-cyan-500">Añade más cómics</button>
+            className="px-20 py-6 text-2xl text-white bg-cyan-500 mb-4">Añade más cómics</button>
             </div>
             </>
           )}

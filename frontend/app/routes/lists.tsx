@@ -39,7 +39,7 @@ function Lists() {
                 className="bg-white px-6 py-14 rounded-lg shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
                 key={list.id}
               >
-                <img className='mb-4' src="/listplaceholder.png" alt="Placeholderparalistas" />
+                <img className='mb-4' src="/listcover.jpg" alt="Placeholderparalistas" />
                 <h3 className="text-4xl font-bold text-cyan-600 mb-3">{list.titulo}</h3>
                 <p className="text-gray-600 mb-4">{list.descripcion}</p>
                 <p className="text-gray-500">
