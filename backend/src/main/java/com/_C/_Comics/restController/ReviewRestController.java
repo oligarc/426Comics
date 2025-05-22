@@ -1,6 +1,7 @@
 package com._C._Comics.restController;
 
 import com._C._Comics.dto.ReviewDTO;
+import com._C._Comics.dto.UserDTO;
 import com._C._Comics.models.Review;
 import com._C._Comics.models.User;
 import com._C._Comics.repository.ReviewRepository;
@@ -55,13 +56,22 @@ public class ReviewRestController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Void> addReview(@RequestBody Review review){
+    public ResponseEntity<ReviewDTO> addReview(@RequestBody Review review){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         User user = userRepository.findByNick(username);
         review.setUser(user);
         serviceReview.saveReview(review);
-        return ResponseEntity.status(HttpStatus.CREATED).build(); // 201 Created
+        ReviewDTO responseReviewDTO = new ReviewDTO(
+                review.getId(),
+                review.getRating(),
+                new UserDTO(review.getUser().getId(), review.getUser().getNick()),
+                review.getReviewText(),
+                review.getReviewedAt(),
+                review.getLastUpdatedAt()
+        );
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseReviewDTO); // FOUGTH HOURS WITH THIS AND IT WAS JUST A DTO THING. MYGOD
     }
 
     @PutMapping("/update/{id}")
