@@ -56,6 +56,15 @@ export interface ComicListProps{
     comicsList : ComicDTO [];
 }
 
+export interface ComicsListAddedProps {
+  comicsList: ComicDTO[];
+  onAddComic: (comic: ComicDTO) => void;
+}
+
+export interface InputSearchListProps{
+  addComicToState: (comic: ComicDTO) => void;
+}
+
 export interface AuthorListProps{
     authors : AuthorDTO [];
 }

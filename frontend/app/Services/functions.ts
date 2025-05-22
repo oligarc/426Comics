@@ -569,6 +569,32 @@ export const getComicListByListId = async (listId : number) => {
   }
 }
 
+export const addComicToList = async (listId:number, comicId:number) => {
+  try{
+
+    const token = sessionStorage.getItem("token");
+    if(!token){
+      throw new Error("Token de autenticación no encontrado");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/listaComic/add/${listId}/${comicId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error al añadir el cómic a la lista: ${response.statusText}`);
+    }
+
+  }catch(error){
+    console.error("Error en la petición:", error);
+    throw new Error("Error al añadir.")
+  }
+}
+
 export const getCommentsListByListId = async (listId : number) => {
   try{
 
@@ -599,6 +625,27 @@ export const getCommentsListByListId = async (listId : number) => {
     throw new Error("Error al obtener los comentarios.")
   }
 }
+
+export const hasTheListTheComic = async (listId: number, comicId: number) => {
+  try {
+    const token = sessionStorage.getItem("token");
+    const response = await fetch(
+      `${API_BASE_URL}/api/listaComic/exists/${listId}/${comicId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const hasIt = await response.json();
+    return hasIt;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 /*API LIST AND COMMENTS FUNCTIONS */
 
