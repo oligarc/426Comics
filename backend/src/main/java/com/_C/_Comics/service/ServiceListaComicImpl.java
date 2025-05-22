@@ -46,6 +46,11 @@ public class ServiceListaComicImpl implements ServiceListaComic{
     }
 
     @Override
+    public boolean isComicInList(int listaId, int comicId) {
+        return listaComicRepository.existsByLista_IdAndComic_Id(listaId,comicId);
+    }
+
+    @Override
     public void addComic(int listaId, int comicId) {
 
         Lista lista = listaRepository.findById(listaId).orElseThrow(()-> new RuntimeException("No list with that id"));

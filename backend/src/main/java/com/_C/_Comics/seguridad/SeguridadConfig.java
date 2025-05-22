@@ -120,7 +120,8 @@ public class SeguridadConfig {
                                 "api/listaComic/",
                                 "/api/listaComic/listId/{id}",
                                 "/api/listaComic/comicId/{id}",
-                                "/api/comentarios/get/{listaId}"
+                                "/api/comentarios/get/{listaId}",
+                                "/api/listaComic/exists/{listId}/{comicId}"
                                 )
                         .authenticated()
 

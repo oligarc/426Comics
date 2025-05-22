@@ -11,4 +11,6 @@ public interface ListaComicRepository extends JpaRepository<ListaComic,Integer> 
     List<ListaComic> findByComic_Id(Integer comicId);
 
     void deleteByLista_IdAndComic_Id(Integer listaId, Integer comicId);
+
+    boolean existsByLista_IdAndComic_Id(Integer listaId, Integer comicId);
 }

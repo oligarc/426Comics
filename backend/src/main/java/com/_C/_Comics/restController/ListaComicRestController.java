@@ -33,6 +33,11 @@ public class ListaComicRestController {
         return serviceListaComic.getListasThatContainComic(id);
     }
 
+    @GetMapping("/exists/{listId}/{comicId}")
+    public boolean exists(@PathVariable int listId, @PathVariable int comicId){
+        return serviceListaComic.isComicInList(listId,comicId);
+    }
+
     @PostMapping("/add/{listId}/{comicId}")
     public void addComic(@PathVariable int listId, @PathVariable int comicId){
         serviceListaComic.addComic(listId,comicId);

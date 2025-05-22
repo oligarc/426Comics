@@ -10,6 +10,7 @@ public interface ServiceListaComic {
     public List<ListaComicDTO> getAllListas();
     public List<ListaComicDTO> getListaComicByListaId(int listaId);
     public List<ListaComicDTO> getListasThatContainComic(int comicId);
+    public boolean isComicInList(int listaId,int comicId );
     public void addComic(int listaId, int comicId);
     public void deleteComic(int listaId,int comicId);
 }
