@@ -569,6 +569,37 @@ export const getComicListByListId = async (listId : number) => {
   }
 }
 
+export const getCommentsListByListId = async (listId : number) => {
+  try{
+
+    const token = sessionStorage.getItem("token");
+    if(!token){
+      throw new Error("Token de autenticación no encontrado");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/comentarios/get/${listId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Error al obtener los comentarios: ${errorData.message || response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+
+
+  }catch(error){
+    console.error("Error en la petición:", error);
+    throw new Error("Error al obtener los comentarios.")
+  }
+}
+
 /*API LIST AND COMMENTS FUNCTIONS */
 
 

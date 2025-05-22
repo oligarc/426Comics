@@ -26,7 +26,7 @@ function Header() {
       {/* Centro (columna 2) */}
       <nav className="flex justify-center">
         <ul className="flex flex-wrap justify-center gap-4 sm:gap-6 text-base sm:text-xl">
-          <li><Link to="#">Qué es 426Comics</Link></li>
+          <li><Link to="about">Qué es 426Comics</Link></li>
           {nick ? (
             <>
               <li><Link to="/publishers">Editoriales</Link></li>
