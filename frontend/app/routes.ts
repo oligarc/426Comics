@@ -12,6 +12,7 @@ export default [
         route("/authors","routes/authorList.tsx"),
         route("/authorComics/:authorName","routes/authorComics.tsx"),
         route("/lists","routes/lists.tsx"),
+        route("/addComic","routes/addComic.tsx"),
         route("/lists/:id","routes/listsDetails.tsx"),  
         route("/comicDetails/:id","routes/comicDetails.tsx"),
         route("/title/:title","routes/title.tsx"),

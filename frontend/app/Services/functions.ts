@@ -187,6 +187,91 @@ export const getComicsByAuthorName = async ( //Thinking of obtaining it by autho
   }
 };
 
+export const postComic = async (
+  title: string,
+  launchDate: string,
+  price: number,
+  stock: number,
+  isbn: string,
+  coverUrl: string, 
+  description: string, 
+  pageCount: number,
+  isCollection: boolean,
+  collectionVolume: number | null,
+  authorId: number,
+  publisherId: number
+): Promise<void> => {
+    try {
+        const token = sessionStorage.getItem("token");
+        if (!token) {
+            throw new Error("Token de autenticación no encontrado.");
+        }
+
+        const requestBody = {
+            title,
+            launchDate,
+            price,
+            stock,
+            isbn,
+            coverUrl,
+            description,
+            pageCount,
+            isCollection,
+            collectionVolume: isCollection ? collectionVolume : null,
+            author: { id: authorId },
+            publisher: { id: publisherId }
+        };
+
+        console.log("Enviando datos del cómic:", requestBody);
+
+        const response = await fetch(`${API_BASE_URL}/api/comics/add`, { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(requestBody),
+        });
+
+        if (!response.ok) {
+            let errorMessage = `Error al añadir el cómic: ${response.status} ${response.statusText}`;
+            
+            const responseBody = await response.text(); 
+
+            try {
+                
+                const contentType = response.headers.get("content-type");
+                if (contentType && contentType.includes("application/json")) {
+                    const errorJson = JSON.parse(responseBody);
+                    if (errorJson.message) {
+                        errorMessage = `Error al añadir el cómic: ${errorJson.message}`;
+                    } else if (errorJson.error) {
+                        errorMessage = `Error al añadir el cómic: ${errorJson.error}`;
+                    }
+                } else {
+                   
+                    if (responseBody) { 
+                        errorMessage += ` - ${responseBody.substring(0, 100)}...`;
+                    }
+                }
+            } catch (jsonParseError) {
+                
+                if (responseBody) { 
+                    errorMessage += ` - ${responseBody.substring(0, 100)}...`;
+                }
+            }
+
+            throw new Error(errorMessage);
+        }
+        
+        console.log("Cómic añadido con éxito.");
+
+    } catch (error) {
+        console.error("Error en la petición:", error);
+        throw new Error(`Hubo un problema al guardar el cómic. Detalles: ${error instanceof Error ? error.message : String(error)}`);
+    }
+};
+
 /* API COMICS FUNCTIONS */
 
 /* API USERCOLLECTION FUNCTIONS */
@@ -391,6 +476,7 @@ export const getAllAuthors = async (
     }
 
     const authors = await response.json();
+    console.log("Authors obtained:", authors);
     return authors;
   } catch (error) {
     console.error("Error getting the authors");
@@ -697,6 +783,34 @@ export const postComment = async (listId: number, userId: number, contenido: str
     throw new Error("Hubo un problema al enviar el comentario.");
   }
 };
+
+export const deleteComment = async (comentarioId:number, listaId:number) => {
+  try {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      throw new Error("Token de autenticación no encontrado.");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/comentarios/delete/${comentarioId}/${listaId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`Error al eliminar el comentario ${errorData.message || response.statusText}`);
+    }
+
+    console.log("Reseña eliminada correctamente.");
+
+  } catch (error) {
+    console.error("Error en la petición:", error);
+    throw new Error("Error al eliminar el comentario.");
+  }
+}
 
 
 
